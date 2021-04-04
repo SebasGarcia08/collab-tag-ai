@@ -6,19 +6,30 @@
     <h1 class="display-4">DEVELOPERS DEVELOPERS DEVELOPERS DEVELOPERS DEVELOPERS DEVELOPERS </h1>
     <div class="row">
         <div id="app">
-           {{ message }}
+            <input type="value" v-model="message"/>
+            <p> {{ person }} </p>
         </div>        
     </div>
 </div>
 
 @section Scripts
 {
-<script>
+    <script>
     var app = new Vue({
         el:"#app",
         data: {
-            message: "Hello fucking world from VueJS"
+            message: "Hello fucking world from VueJS",
+            person:''
+        },
+        methods:{
+            getPerson: function() {
+                this.$http.get("https://localhost:5001/api/Person/").then((response) => {
+                    this.person = response;   
+                }).catch((err) => {
+                    console.log(err);
+                });
+            }
         }
     })
-</script>    
+</script>
 }
