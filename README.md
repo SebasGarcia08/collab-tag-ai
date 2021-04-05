@@ -1,11 +1,29 @@
 # Capstone project for PI1
 
-## Setup 
+## Technologies 
 
-Execute the following command before running the project
+Frontend technologies:
+
+- Framework: VueJS
+- Language: TypeScript
+- Testing: Jest
+- Bundler: Babel
+- CSS preprocessor: SASS
+
+
+Backend technologies:
+
+- Framework: .NET Core
+- .NET Core
+
+## Setup
 
 ```
-dotnet dev-certs https --clean
-dotnet dev-certs https -t
-``` 
+# Run frontend
+cd frontend 
+npm run serve
 
+# Run backend
+cd backend
+dotnet run
+``` 
