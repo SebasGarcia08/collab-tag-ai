@@ -2,34 +2,10 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">DEVELOPERS DEVELOPERS DEVELOPERS DEVELOPERS DEVELOPERS DEVELOPERS </h1>
-    <div class="row">
-        <div id="app">
-            <input type="value" v-model="message"/>
-            <p> {{ person }} </p>
-        </div>        
-    </div>
+<div id="app">
+    <home-component></home-component>
 </div>
 
-@section Scripts
-{
-    <script>
-    var app = new Vue({
-        el:"#app",
-        data: {
-            message: "Hello fucking world from VueJS",
-            person:''
-        },
-        methods:{
-            getPerson: function() {
-                this.$http.get("https://localhost:5001/api/Person/").then((response) => {
-                    this.person = response;   
-                }).catch((err) => {
-                    console.log(err);
-                });
-            }
-        }
-    })
-</script>
+@section scripts {
+    <script src="@Url.Content("~/bundle/home.js")"></script>
 }

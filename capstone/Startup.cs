@@ -13,6 +13,8 @@ namespace capstone
 {
     public class Startup
     {
+        readonly string AllowSpecificOrigins = "text_prediction";
+        
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -23,9 +25,16 @@ namespace capstone
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services
-                .AddControllersWithViews()
-                .AddRazorRuntimeCompilation();
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: AllowSpecificOrigins,
+                    builder =>
+                    {
+                        builder.WithOrigins("http://localhost:8501/v1/models/amazon_review");
+                    });
+            })
+            .AddControllersWithViews()
+            .AddRazorRuntimeCompilation();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -44,9 +53,10 @@ namespace capstone
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
             app.UseRouting();
-
+            
+            app.UseCors(AllowSpecificOrigins);
+            
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

@@ -17,7 +17,7 @@ namespace capstone.Controllers
         [HttpGet]
         public Person Get()
         {
-            Person p = new Person() {Name = "Chombo"};
+            Person p = new Person() {Name = "Hello from the backeeeeeend"};
             return p;
         }
     }

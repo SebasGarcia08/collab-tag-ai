@@ -1,7 +1,7 @@
 namespace capstone.Models
 {
-    public class Logic
+    public class Person
     {
-        
+        public string Name { get; set; }
     }
 }
