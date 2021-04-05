@@ -1,13 +1,13 @@
 import Vue from "vue";
-import ModelComponent from "./home.vue"
+import HomeComponent from "./home.vue"
 import ContactComponent from "./contactus.vue"
-import AboutUsComponent  from './aboutus.vue'
+import AboutComponent  from './aboutus.vue'
 
 new Vue({
     el: "#app",
-    components:{
-        ModelComponent,
+    components: {
+        HomeComponent,
         ContactComponent,
-        AboutUsComponent
+        AboutComponent
     }
 })

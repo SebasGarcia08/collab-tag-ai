@@ -62,5 +62,6 @@ module.exports = {
     stats: {
         errorDetails: true
     },
+    
     mode: "development",
 }
