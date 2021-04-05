@@ -46,13 +46,13 @@ From root project directory:
 cd /frontend && npm run build
 ```
 
-#### Run your unit tests
+#### Run unit tests
 From root project directory:
 ```
 cd /frontend && npm run test:unit
 ```
 
-#### Run your end-to-end tests
+#### Run end-to-end tests
 First start the server from `/backend` folder:
 ```
 dotnet run
