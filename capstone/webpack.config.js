@@ -62,6 +62,10 @@ module.exports = {
     stats: {
         errorDetails: true
     },
-    
+    devServer: {
+        contentBase: path.join(__dirname, bundleExportPath),
+        compress: true,
+        port: 5002,
+    },
     mode: "development",
 }
