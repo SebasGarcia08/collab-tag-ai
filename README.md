@@ -53,31 +53,10 @@ From root project directory:
 cd /frontend && npm run build
 ```
 
-#### Run unit tests
-From root project directory:
-```
-cd /frontend && npm run test:unit
-```
-
-#### Run end-to-end tests
-First start the server from `/backend` folder:
-```
-dotnet run
-```
-Then from `/frontend` folder:
-```
-npm run test:e2e
-```
-
 ### Backend
 #### To run the server app:
 ```
 cd /backend && dotnet run
-```
-
-#### To run the back-end tests:
-```
-cd /backend/tests && dotnet test
 ```
 
 ###### Note:
