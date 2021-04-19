@@ -1,4 +1,4 @@
-# Capstone project for PI1
+# Collabtag.ai: Web platform for tagging image classification datasets collaboratively
 
 ## Software requirements
 
