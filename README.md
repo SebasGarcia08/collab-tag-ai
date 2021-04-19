@@ -1,5 +1,12 @@
 # Capstone project for PI1
 
+## Software requirements
+
+- NodeJS
+- NPM
+- dotnet core
+- C#
+
 ## Technologies 
 
 Frontend technologies:
