@@ -34,8 +34,9 @@
     </v-app-bar>
 
     <v-main>
-      <HelloWorld />
       <Test />
+      <HelloWorld />
+      
     </v-main>
   </v-app>
 </template>
