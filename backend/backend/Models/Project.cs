@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 #nullable disable
 
-namespace collabtag_backend.Models
+namespace backend.Models
 {
     public partial class Project
     {

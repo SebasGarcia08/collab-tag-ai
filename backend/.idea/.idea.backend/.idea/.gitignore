@@ -4,10 +4,10 @@
 # Rider ignored files
 /contentModel.xml
 /projectSettingsUpdater.xml
-/.idea.backend.iml
 /modules.xml
+/.idea.backend.iml
 # Datasource local storage ignored files
-/dataSources/
+/../../../../../../../../../../../../:\Users\cgp99\Google Drive\____Decimo Semestre\Proyecto Integrador 1\Proyecto Final\collab-tag-ai\backend\.idea\.idea.backend\.idea/dataSources/
 /dataSources.local.xml
 # Editor-based HTTP Client requests
 /httpRequests/

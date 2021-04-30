@@ -1,13 +1,12 @@
 using System.Collections.Generic;
 using System.Linq;
-using collabtag_backend.Models;
+using backend.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using postgres_connection.Models;
 
-namespace postgres_connection.Controllers
-{   
-    [Route("api")]
+namespace backend.Controllers
+{
+    [Microsoft.AspNetCore.Components.Route("api")]
     [ApiController]
     public class TestController
     {
