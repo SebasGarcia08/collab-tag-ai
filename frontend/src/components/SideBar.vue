@@ -8,11 +8,11 @@
 
                 <!-- Log out button -->
                 <li class="nav-item w-full mt-auto group-bar">
-                    <a href="#" class="nav-link flex items-center h-20 no-underline duration-200 hover:bg-blue-600">
+                    <router-link to="/" class="nav-link flex items-center h-20 no-underline duration-200 hover:bg-blue-600">
                         <!-- Insert icon/image here -->
                         <i class="fas fa-sign-out-alt fa-2x min-w-8 m-6 text-blue-900 group-bar-hover:text-white"></i>
                         <span class="link-text hidden m-4 group-foo-hover:block font-bold text-blue-900 text-xl group-bar-hover:text-white"> Log out </span>
-                    </a>
+                    </router-link>
                 </li>
             </ul>
         </nav>

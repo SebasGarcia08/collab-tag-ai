@@ -9,20 +9,11 @@
 
 <script lang="ts">
 import Vue from "vue"
-import SideBar from "../components/SideBar.vue";
-import LoginBox from "../components/LoginBox.vue";
+import SideBar from "../components/SideBar.vue"
+import LoginBox from "../components/LoginBox.vue"
 import Component from 'vue-class-component'
-class Item {
-  public text: string
-  public route: string
-  public icon: string
+import { Item } from '../model/Item'
 
-  constructor(text: string, route: string, icon: string) {
-    this.text = text;
-    this.route = route;
-    this.icon = icon;
-  }
-}
 // The @Component decorator indicates the class is a Vue component
 @Component({
   components: {
