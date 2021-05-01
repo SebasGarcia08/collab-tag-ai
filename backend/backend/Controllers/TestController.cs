@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using backend.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -29,10 +31,26 @@ namespace backend.Controllers
         }
         
         [HttpGet("users/{id}")]
-        public ActionResult<List<CUser>> GetUserById()
+        public ActionResult<CUser> GetUserById(int id)
         {
-            _logger.LogInformation("\n \n \n THIS IS A TEST \n \n \n");
-            return _context.CUsers.ToList();
+
+            try
+            {
+                return _context.CUsers.Single(u => u.IdUser == id);
+            }
+            catch
+            {
+                return new NotFoundResult();
+            }
         }
+
+        // [HttpPost("user")]
+        // public async Task<ActionResult<CUser>> addUser(CUser user)
+        // {
+        //     _context.CUsers.Add(user);
+        //     await _context.SaveChangesAsync();
+        //
+        //     return CreatedAtActionResult(nameof(user), );
+        // }       
     }
 }
