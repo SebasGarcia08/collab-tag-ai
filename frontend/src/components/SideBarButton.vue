@@ -3,7 +3,7 @@
             <router-link to="route" class="nav-link flex items-center h-20 no-underline duration-200 hover:bg-blue-600">
             <!-- Insert icon/image here -->
             <i :class="icon" class="w-8 m-6 text-blue-900 group-bar-hover:text-white"></i>
-            <span class="link-text hidden m-4 group-foo-hover:block font-bold text-blue-900 text-xl group-bar-hover:text-white">{{ buttonLabel }}</span>
+            <span class="link-text hidden m-4 group-foo-hover:block font-bold text-blue-900 text-xl group-bar-hover:text-white">{{ text }}</span>
         </router-link>
     </li>
 </template>
@@ -15,7 +15,7 @@ export default Vue.extend({
 
     },
     props: {
-        buttonLabel: String,
+        text: String,
         route: String,
         icon: String,
         selected: {

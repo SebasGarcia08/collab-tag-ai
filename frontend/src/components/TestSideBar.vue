@@ -1,12 +1,12 @@
 <template>
         <nav class="navbar group-foo fized w-20 h-screen bg-blue-400 hover:w-56 duration-200 ease-in">
             <ul class="navbar-nav p-0 m-0 h-screen flex flex-col items-center">
-                <div v-for="button in buttons" v-bind:key="button">
-                    <SideBarButton buttonLabel="button.label" route="button.route" icon="button.icon" />
+                <div class="w-full" v-for="button in buttons" v-bind:key="button">
+                    <SideBarButton :text="button.text" :route="button.route" :icon="button.icon" />
                 </div>
 
                 <!-- Projects button -->
-                <SideBarButton buttonLabel="Projects" route="/Porjects" icon="fas fa-stream fa-2x" />
+                <SideBarButton text="Projects" route="/Projects" icon="fas fa-stream fa-2x" />
 
                 <!-- Settings button -->
                 <li class="nav-item w-full group-bar">

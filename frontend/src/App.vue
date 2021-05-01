@@ -3,7 +3,7 @@
     <!-- <TaggingPanel /> -->
     <!-- <Projects /> -->
     <!-- <router-view></router-view> -->
-    <TestSideBar />
+    <TestSideBar :buttons="buttonsarr"/>
   </div>
 </template>
 
@@ -13,31 +13,39 @@ import Vue from "vue"
 // import ProjectPreview from "./components/ProjectPreview.vue"
 import TestSideBar from "./components/TestSideBar.vue"
 import Projects from "./views/Projects.vue";
-interface Item {
-  text: string,
-  route: string,
-  icon: string
-}
-export default Vue.extend({
-  name: "App",
 
+import Component from 'vue-class-component'
+class Item {
+  public text: string
+  public route: string
+  public icon: string
+
+  constructor(text: string, route: string, icon: string) {
+    this.text = text;
+    this.route = route;
+    this.icon = icon;
+  }
+}
+// The @Component decorator indicates the class is a Vue component
+@Component({
   components: {
-    // TaggingPanel
-    // Projects,
     TestSideBar
   },
+})
+export default class App extends Vue {
+  // Initial data can be declared as instance properties
 
-  // data: () => ({
-  //   buttons: Item[]
-  // }),
-  // created (): void {
-  //   this.buttons = [
-  //     {
-  //       text: 'Projects',
-  //       route: '/Projects',
-  //       icon: 'fas fa-stream fa-2x'
-  //     }
-  //   ]
-  // }
-});
+  buttonsarr: Array<Item> = [
+    {
+      text: 'Projects',
+      route: '/Projects',
+      icon: 'fas fa-stream fa-2x'
+    },
+    {
+      text: 'Account',
+      route: '/Projects',
+      icon: 'fas fa-cogs fa-2x'
+    }
+  ]
+}
 </script>
