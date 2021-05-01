@@ -3,6 +3,7 @@
     <img alt="Vue logo" src="../assets/logo.png" />
     <HelloWorld msg="Welcome to Your Vue.js + TypeScript App" />
     <Test greeting="Greetings! :D"/>
+    <Button/>
   </div>
 </template>
 
@@ -14,7 +15,7 @@ import Test from "@/components/Test.vue";
 @Component({
   components: {
     HelloWorld,
-    Test
+    Test,
   },
 })
 export default class Home extends Vue {}

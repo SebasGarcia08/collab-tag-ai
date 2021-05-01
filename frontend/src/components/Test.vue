@@ -20,6 +20,7 @@ export default class Test extends Vue {
     } 
     
     init(): void{
+        //this.$router.push('about')
         this.greeting = "This has been foking initialized";
     }
 

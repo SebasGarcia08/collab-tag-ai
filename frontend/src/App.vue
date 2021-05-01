@@ -1,60 +1,43 @@
 <template>
-  <v-app>
-    <v-app-bar app color="primary" dark>
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
-
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
-
-      <v-spacer></v-spacer>
-
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
-    </v-app-bar>
-
-    <v-main>
-      <Test />
-      <HelloWorld />
-      
-    </v-main>
-  </v-app>
+  <div id="app">
+    <!-- <TaggingPanel /> -->
+    <!-- <Projects /> -->
+    <!-- <router-view></router-view> -->
+    <TestSideBar />
+  </div>
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import HelloWorld from "./components/HelloWorld.vue";
-import Test from "./components/Test.vue";
+import Vue from "vue"
+// import TaggingPanel from "./components/TaggingPanel.vue"
+// import ProjectPreview from "./components/ProjectPreview.vue"
+import TestSideBar from "./components/TestSideBar.vue"
+import Projects from "./views/Projects.vue";
+interface Item {
+  text: string,
+  route: string,
+  icon: string
+}
 export default Vue.extend({
   name: "App",
 
   components: {
-    HelloWorld,
-    Test
+    // TaggingPanel
+    // Projects,
+    TestSideBar
   },
 
-  data: () => ({
-    //
-  }),
+  // data: () => ({
+  //   buttons: Item[]
+  // }),
+  // created (): void {
+  //   this.buttons = [
+  //     {
+  //       text: 'Projects',
+  //       route: '/Projects',
+  //       icon: 'fas fa-stream fa-2x'
+  //     }
+  //   ]
+  // }
 });
 </script>
