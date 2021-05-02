@@ -1,5 +1,5 @@
 <template>
-  <div class="container relative">
+  <div class="container relative bg-white dark:bg-gray-800">
     <SideBar :buttons="buttonsarr" class="absolute" />
     <main class="ml-20"></main>
     <WebcamPanel />

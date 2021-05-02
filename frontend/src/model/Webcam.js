@@ -10,7 +10,7 @@ export class Webcam {
    *     webcam feed.
    */
   constructor() {
-    console.log("I Am fucking created")
+    this.webcamElement = null;
   }
 
   setWebcamElement(webcamElement){
