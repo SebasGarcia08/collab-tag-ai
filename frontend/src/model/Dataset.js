@@ -1,6 +1,8 @@
-class RPSDataset {
+import * as tf from "@tensorflow/tfjs";
+
+export class Dataset {
   constructor() {
-    this.labels = []
+    this.labels = [];
   }
 
   addExample(example, label) {
@@ -18,13 +20,15 @@ class RPSDataset {
   encodeLabels(numClasses) {
     for (var i = 0; i < this.labels.length; i++) {
       if (this.ys == null) {
-        this.ys = tf.keep(tf.tidy(
-            () => {return tf.oneHot(
-                tf.tensor1d([this.labels[i]]).toInt(), numClasses)}));
+        this.ys = tf.keep(
+          tf.tidy(() => {
+            return tf.oneHot(tf.tensor1d([this.labels[i]]).toInt(), numClasses);
+          })
+        );
       } else {
-        const y = tf.tidy(
-            () => {return tf.oneHot(
-                tf.tensor1d([this.labels[i]]).toInt(), numClasses)});
+        const y = tf.tidy(() => {
+          return tf.oneHot(tf.tensor1d([this.labels[i]]).toInt(), numClasses);
+        });
         const oldY = this.ys;
         this.ys = tf.keep(oldY.concat(y, 0));
         oldY.dispose();
