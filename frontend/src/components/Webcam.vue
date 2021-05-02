@@ -1,42 +1,49 @@
 <template>
-  <div class="float-right md:float-right">
+  <div class="float-center md:float-center">
     <div class="flex justify-center">
       <video
         autoplay
         playsinline
         muted
         ref="wc"
-        width="500"
-        height="500"
+        width="600"
+        height="600"
       ></video>
     </div>
     <div class="flex justify-center">
-
-<button class="w-1/4 py-2 px-4 bg-blue-500 hover:bg-blue-600 rounded-md text-white flex justify-center" 
-    v-on:click="handleButton(0)"> {{classNames[0]}} {{ numSamples[0] }} </button>
+      
+    <button class="w-1/4 py-2 px-4 bg-blue-500 hover:bg-blue-600 rounded-md text-white flex justify-center" 
+    v-on:click="handleButton(0)"> Rock {{ numRocks }} </button>
 
     <button class="w-1/4 py-2 px-4 bg-blue-500 hover:bg-blue-600 rounded-md text-white flex justify-center" 
-    type="button" v-on:click="handleButton(1)"> {{classNames[1]}} {{ numSamples[1] }}</button>
+    type="button" v-on:click="handleButton(1)"> Paper {{ numPapers }}</button>
     
     <button class="w-1/4 py-2 px-4 bg-blue-500 hover:bg-blue-600 rounded-md text-white flex justify-center" 
-    type="button" v-on:click="handleButton(2)"> {{classNames[2]}} {{ numSamples[2] }} </button>
+    type="button" v-on:click="handleButton(2)"> Scissors {{ numScissors }} </button>
+
+     </div>
+    <div class="flex justify-center">
+      <button class="w-1/4 py-2 px-4 bg-green-500 hover:bg-green-600 rounded-md text-white flex justify-center" 
+        v-on:click="doTraining">
+        Train Network
+      </button>
     
     </div>
-
-    <button type="button" id="train" v-on:click="doTraining">
-      Train Network
-    </button>
-    <div id="dummy">
-      Once training is complete, click 'Start Predicting' to see predictions,
-      and 'Stop Predicting' to end
+    <div  class="flex justify-center">
+        Once training is complete, click 'Start Predicting' to see predictions,
+        and 'Stop Predicting' to end
     </div>
-    <button type="button" id="startPredicting" v-on:click="startPredicting">
-      Start Predicting
-    </button>
-    <button type="button" id="stopPredicting" v-on:click="stopPredicting">
-      Stop Predicting
-    </button>
-    <div id="prediction">{{ prediction }}}</div>
+    <div class="flex justify-center">
+      <button class="w-1/4 py-2 px-4 bg-green-500 hover:bg-green-600 rounded-md text-white flex justify-center"  
+              id="startPredicting" v-on:click="startPredicting">
+        Start Predicting
+      </button>
+      <button class="w-1/4 py-2 px-4 bg-red-500 hover:bg-red-600 rounded-md text-white flex justify-center"  
+          id="stopPredicting" v-on:click="stopPredicting">
+        Stop Predicting
+      </button>
+      <div id="prediction">{{ prediction }}}</div>
+     </div>
   </div>
 </template>
 
@@ -45,6 +52,7 @@ import { Webcam } from "@/model/Webcam";
 import { Dataset } from "@/model/Dataset";
 import { Vue, Component, Prop } from "vue-property-decorator";
 import * as tf from "@tensorflow/tfjs";
+import * as tfvis from '@tensorflow/tfjs-vis';
 import { LayersModel, Sequential, Tensor1D, Tensor2D } from "@tensorflow/tfjs";
 
 @Component
@@ -52,8 +60,8 @@ export default class WebcamPanel extends Vue {
   private model: LayersModel;
   private mobilenet: LayersModel;
 
-  @Prop() public classNames: Array<string> = ["Rock", "Paper", "Scissors"];
-  @Prop() public numSamples: Array<number> = [0, 0, 0];
+  public classNames: Array<string> = ["Rock", "Paper", "Scissors"];
+  public numSamples: Array<number>;
   public predictionText: string;
 
   public isPredicting: boolean;
@@ -68,6 +76,7 @@ export default class WebcamPanel extends Vue {
     this.model = new Sequential();
     this.webcam = new Webcam();
     this.mobilenet = new Sequential();
+    this.numSamples = [0,0,0];
   }
 
   mounted(): void {
@@ -114,15 +123,11 @@ export default class WebcamPanel extends Vue {
       loss: "categoricalCrossentropy",
     });
     let loss:string;
-
+    const surface = { name: 'show.fitCallbacks', tab: 'Training' };
     this.model.fit(this.dataset.xs, this.dataset.ys, {
       epochs: 100,
-      callbacks: {
-      onBatchEnd: async (batch:number, logs: any) => {
-        loss = logs.loss.toFixed(5);
-        console.log('LOSS: ' + loss);
-        }
-      }
+      callbacks: tfvis.show.fitCallbacks(surface, ['loss', 'acc']),
+//      onBatchEnd: async (batch:number, logs: any) => { loss = logs.loss.toFixed(5); console.log('LOSS: ' + loss); },
     });
   }
 
@@ -132,7 +137,7 @@ export default class WebcamPanel extends Vue {
 
   handleButton(id: number): void {
       this.numSamples[id] += 1;
-      console.log(this.numSamples)
+      console.log("NUM SAMPLS"+this.numSamples)
       const img = this.webcam.capture();
       const features = this.mobilenet.predict(img);
       console.log(features);
@@ -167,5 +172,19 @@ export default class WebcamPanel extends Vue {
   get prediction(){
     return this.predictionText;
   }
+
+  get numRocks():number {
+    console.log(this.numSamples[0]);
+    return this.numSamples[0];
+  }
+
+  get numPapers():number {
+    return this.numSamples[1];
+  }
+
+  get numScissors():number {
+    return this.numSamples[2];
+  }
+
 }
 </script>
