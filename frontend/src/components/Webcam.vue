@@ -125,7 +125,7 @@ export default class WebcamPanel extends Vue {
     let loss:string;
     const surface = { name: 'show.fitCallbacks', tab: 'Training' };
     this.model.fit(this.dataset.xs, this.dataset.ys, {
-      epochs: 100,
+      epochs: 50,
       callbacks: tfvis.show.fitCallbacks(surface, ['loss', 'acc']),
 //      onBatchEnd: async (batch:number, logs: any) => { loss = logs.loss.toFixed(5); console.log('LOSS: ' + loss); },
     });
