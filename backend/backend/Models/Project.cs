@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Mvc;
 
 #nullable disable
 
@@ -11,6 +10,7 @@ namespace backend.Models
         public Project()
         {
             Classes = new HashSet<Class>();
+            Data = new HashSet<Datum>();
             Models = new HashSet<Model>();
         }
 
@@ -22,6 +22,7 @@ namespace backend.Models
 
         public virtual CUser IdUserNavigation { get; set; }
         public virtual ICollection<Class> Classes { get; set; }
+        public virtual ICollection<Datum> Data { get; set; }
         public virtual ICollection<Model> Models { get; set; }
     }
 }

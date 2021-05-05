@@ -27,7 +27,7 @@ namespace backend.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
                 optionsBuilder.UseNpgsql("Host=localhost;Database=collabtag;Username=postgres;Password=postgres");
             }
         }
@@ -106,6 +106,10 @@ namespace backend.Models
                     .ValueGeneratedOnAdd()
                     .HasColumnName("id_class");
 
+                entity.Property(e => e.IdProject)
+                    .ValueGeneratedOnAdd()
+                    .HasColumnName("id_project");
+
                 entity.Property(e => e.IdUser)
                     .ValueGeneratedOnAdd()
                     .HasColumnName("id_user");
@@ -119,6 +123,12 @@ namespace backend.Models
                     .HasForeignKey(d => d.IdClass)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("data_fk2");
+
+                entity.HasOne(d => d.IdProjectNavigation)
+                    .WithMany(p => p.Data)
+                    .HasForeignKey(d => d.IdProject)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("data_fk3");
 
                 entity.HasOne(d => d.IdUserNavigation)
                     .WithMany(p => p.Data)

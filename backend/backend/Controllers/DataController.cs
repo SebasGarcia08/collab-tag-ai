@@ -21,13 +21,14 @@ namespace backend.Controllers
         }
 
         [HttpGet("api/data/{projectId}")]
-        public ActionResult<List<Datum>> getDataByProjectId()
+        public ActionResult<List<Datum>> getDataByProjectId(long projectId)
         {
-            
-            //var dataItems = _context.Data.Where(d => d.)
-            return null; // TODO
+            var dataItems = _context.Data.Where(d => d.IdProject == projectId).ToList();
+            return dataItems; // TODO
         }
+
         
-    
-    }
+
+
+        }
 }
