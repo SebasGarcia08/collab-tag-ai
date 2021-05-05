@@ -84,19 +84,23 @@ namespace backend.Controllers
             return project;
         }
 
+        [HttpGet("api/project/{userId}")]
+        public ActionResult<List<Project>> getProjectsByUserId(long userId)
+        {
+            var projects = _context.Projects.Where(p => p.IdUser == userId).ToList();
+            return projects;
+        }
+            
         // [HttpGet("api/projects/{projectId}/classes")]
-        // public ActionResult<Class> getProjectClasses(long projectId)
+        // public ActionResult<List<Class>> getProjectClasses(long projectId)
         // {
         //     var project = _context.Projects
         //         .Include(project => project.Classes)
         //         .FirstOrDefault(project => project.IdProject == projectId);
-        //
-        //     _logger.LogInformation(project.Classes.GetType().ToString());
-        //
-        //
-        //     return new NotFoundResult();
-        //     //return project == null ? new NotFoundResult() : project.Classes;
+        //     
+        //     
+        //     return project == null ? new NotFoundResult() : project.Classes.ToList();
         // }
-        //
+        
     }
 }

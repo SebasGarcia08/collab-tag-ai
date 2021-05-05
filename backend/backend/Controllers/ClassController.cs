@@ -1,6 +1,8 @@
 using System.Collections.Generic;
+using System.Linq;
 using backend.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.Logging;
 
 namespace backend.Controllers
@@ -20,9 +22,19 @@ namespace backend.Controllers
         }
 
         [HttpPost("api/classes")]
-        public ActionResult<Class> addClass()
+        public ActionResult<Class> addClass(Class c)
         {
-            return new BadRequestResult(); // TODO
+            try
+            {
+                var addedClass = _context.Add<Class>(c).Entity;
+                _context.SaveChanges();
+
+                return new CreatedResult("/api/classes/" + addedClass.IdClass, addedClass);
+            }
+            catch
+            {
+                return new BadRequestResult();
+            }
         }
         
         [HttpDelete("api/classes/{classId}")]
@@ -30,6 +42,14 @@ namespace backend.Controllers
         {
             return new BadRequestResult(); // TODO
         }
-        
+
+        [HttpGet("api/classes/{projectId}")]
+        public ActionResult<List<Class>> getClassesByProjectId(long projectId)
+        {
+            var classes = _context.Classes.Where(c => c.IdProject == projectId).ToList();
+
+            return classes;
+
+        }
     }
 }
