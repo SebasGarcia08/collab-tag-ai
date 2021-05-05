@@ -47,7 +47,6 @@ namespace backend.Controllers
         public ActionResult<List<Class>> getClassesByProjectId(long projectId)
         {
             var classes = _context.Classes.Where(c => c.IdProject == projectId).ToList();
-
             return classes;
 
         }

@@ -58,10 +58,10 @@ namespace backend.Controllers
                 //
                 // project.IdUserNavigation = user;
                 
-                EntityEntry<Project> addedProject = _context.Add<Project>(project);
+                var addedProject = _context.Add<Project>(project).Entity;
                 _context.SaveChanges();
         
-                return new CreatedResult("api/projects/" + addedProject.Entity.IdProject, addedProject.Entity);
+                return new CreatedResult("api/projects/" + addedProject.IdProject, addedProject);
             }
             catch
             {

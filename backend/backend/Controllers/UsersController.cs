@@ -58,10 +58,10 @@ namespace backend.Controllers
         {
             try
             {
-                EntityEntry<CUser> addedUser = _context.Add<CUser>(user);
+                var addedUser = _context.Add<CUser>(user).Entity;
                 _context.SaveChanges();
                 
-                return new CreatedResult("api/users/" + addedUser.Entity.IdUser, addedUser.Entity);
+                return new CreatedResult("api/users/" + addedUser.IdUser, addedUser);
             }
             catch
             {
