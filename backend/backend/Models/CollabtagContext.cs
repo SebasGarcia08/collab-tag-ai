@@ -20,6 +20,7 @@ namespace backend.Models
         public virtual DbSet<CUser> CUsers { get; set; }
         public virtual DbSet<Class> Classes { get; set; }
         public virtual DbSet<Datum> Data { get; set; }
+        public virtual DbSet<Member> Members { get; set; }
         public virtual DbSet<Model> Models { get; set; }
         public virtual DbSet<Project> Projects { get; set; }
 
@@ -135,6 +136,38 @@ namespace backend.Models
                     .HasForeignKey(d => d.IdUser)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("data_fk1");
+            });
+
+            modelBuilder.Entity<Member>(entity =>
+            {
+                entity.HasKey(e => new { e.IdUser, e.IdProject })
+                    .HasName("member_pk");
+
+                entity.ToTable("member");
+
+                entity.Property(e => e.IdUser)
+                    .ValueGeneratedOnAdd()
+                    .HasColumnName("id_user");
+
+                entity.Property(e => e.IdProject)
+                    .ValueGeneratedOnAdd()
+                    .HasColumnName("id_project");
+
+                entity.Property(e => e.Date)
+                    .HasColumnType("timestamp with time zone")
+                    .HasColumnName("date");
+
+                entity.HasOne(d => d.IdProjectNavigation)
+                    .WithMany(p => p.Members)
+                    .HasForeignKey(d => d.IdProject)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("member_fk2");
+
+                entity.HasOne(d => d.IdUserNavigation)
+                    .WithMany(p => p.Members)
+                    .HasForeignKey(d => d.IdUser)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("member_fk1");
             });
 
             modelBuilder.Entity<Model>(entity =>

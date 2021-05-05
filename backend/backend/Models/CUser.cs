@@ -10,6 +10,7 @@ namespace backend.Models
         public CUser()
         {
             Data = new HashSet<Datum>();
+            Members = new HashSet<Member>();
             Projects = new HashSet<Project>();
         }
 
@@ -20,6 +21,7 @@ namespace backend.Models
         public string Lastname { get; set; }
 
         public virtual ICollection<Datum> Data { get; set; }
+        public virtual ICollection<Member> Members { get; set; }
         public virtual ICollection<Project> Projects { get; set; }
     }
 }

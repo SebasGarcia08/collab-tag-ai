@@ -11,6 +11,7 @@ namespace backend.Models
         {
             Classes = new HashSet<Class>();
             Data = new HashSet<Datum>();
+            Members = new HashSet<Member>();
             Models = new HashSet<Model>();
         }
 
@@ -23,6 +24,7 @@ namespace backend.Models
         public virtual CUser IdUserNavigation { get; set; }
         public virtual ICollection<Class> Classes { get; set; }
         public virtual ICollection<Datum> Data { get; set; }
+        public virtual ICollection<Member> Members { get; set; }
         public virtual ICollection<Model> Models { get; set; }
     }
 }
