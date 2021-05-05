@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 #nullable disable
 
@@ -14,8 +15,14 @@ namespace backend.Models
         }
 
         public long IdUser { get; set; }
+        
+        [Required]
         public string Username { get; set; }
+       
+        [Required]
+        [EmailAddress]
         public string Email { get; set; }
+        
         public string Name { get; set; }
         public string Lastname { get; set; }
 
