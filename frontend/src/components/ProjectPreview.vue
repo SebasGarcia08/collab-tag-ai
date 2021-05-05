@@ -1,7 +1,8 @@
 <template>
   <div class="container">
+    <!-- Project -->
     <div
-      class="max-w-nd shadow-md bg-gray-50 flex flex-row w-1/2 border border-black rounded-xl"
+      class="max-w-nd shadow-md bg-gray-50 flex flex-row border border-black rounded-xl"
     >
       <div class="flex flex-col">
         <!-- Project name -->

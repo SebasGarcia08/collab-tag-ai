@@ -1,9 +1,16 @@
 <template>
   <div class="container relative">
     <SideBar :buttons="buttonsarr" class="absolute" />
-    <main class="ml-20">
+    <main class="mx-20">
       <h1 class="text-8xl p-10">Projects</h1>
-      <ProjectPreview projectName="Project Name" class="pl-10" />
+      <!-- <div class="w-full" v-for="project in projects" :key="project">
+        <ProjectPreview
+          :text="button.text"
+          :route="button.route"
+          :icon="button.icon"
+        />
+      </div> -->
+      <ProjectPreview projectName="Project Name" class="pl-10 h-full"/>
     </main>
   </div>
 </template>
