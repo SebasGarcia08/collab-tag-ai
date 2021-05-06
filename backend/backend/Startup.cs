@@ -31,7 +31,7 @@ namespace backend
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<CollabtagContext>(opt => opt.UseNpgsql("Host=localhost;Database=collabtag;Username=postgres;Password=postgres"));
+            //services.AddDbContext<CollabtagContext.cs.cs>(opt => opt.UseNpgsql("Host=localhost;Database=collabtag;Username=postgres;Password=postgres"));
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -42,7 +42,14 @@ namespace backend
                 .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
                 .AddNewtonsoftJson(opt => opt.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
 
-            services.AddCors();
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(
+                    builder =>
+                    {
+                        builder.WithOrigins("https://localhost:5001", "http://localhost:8080");
+                    });
+            });
             
             services
                 .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -75,6 +82,9 @@ namespace backend
 
             app.UseRouting();
             
+            //Must be after UseRouting() and Before UseAuthorization()
+            app.UseCors();
+            
             // https://blog-bertrand-thomas.devpro.fr/2019/10/24/api-authentication-with-asp-net-core-3-0-and-firebase/
             app.UseAuthentication();
             app.UseAuthorization();
@@ -84,8 +94,8 @@ namespace backend
                 endpoints.MapControllers();
             });
 
-            app.UseCors(builder => builder.WithOrigins("http://localhost:55294")); //TODO
-
+            //app.UseCors(builder => builder.WithOrigins("https://localhost:5001")); //TODO
+           
 
 
         }

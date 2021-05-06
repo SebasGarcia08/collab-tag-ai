@@ -28,7 +28,7 @@ namespace backend.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
                 optionsBuilder.UseNpgsql("Host=localhost;Database=collabtag;Username=postgres;Password=postgres");
             }
         }
@@ -44,7 +44,9 @@ namespace backend.Models
 
                 entity.ToTable("c_user");
 
-                entity.Property(e => e.IdUser).HasColumnName("id_user");
+                entity.Property(e => e.IdUser)
+                    .HasMaxLength(255)
+                    .HasColumnName("id_user");
 
                 entity.Property(e => e.Email)
                     .IsRequired()
@@ -112,7 +114,8 @@ namespace backend.Models
                     .HasColumnName("id_project");
 
                 entity.Property(e => e.IdUser)
-                    .ValueGeneratedOnAdd()
+                    .IsRequired()
+                    .HasMaxLength(255)
                     .HasColumnName("id_user");
 
                 entity.Property(e => e.Image)
@@ -140,22 +143,25 @@ namespace backend.Models
 
             modelBuilder.Entity<Member>(entity =>
             {
-                entity.HasKey(e => new { e.IdUser, e.IdProject })
+                entity.HasKey(e => e.IdMember)
                     .HasName("member_pk");
 
                 entity.ToTable("member");
 
-                entity.Property(e => e.IdUser)
-                    .ValueGeneratedOnAdd()
-                    .HasColumnName("id_user");
+                entity.Property(e => e.IdMember).HasColumnName("id_member");
+
+                entity.Property(e => e.Date)
+                    .HasColumnType("timestamp with time zone")
+                    .HasColumnName("date");
 
                 entity.Property(e => e.IdProject)
                     .ValueGeneratedOnAdd()
                     .HasColumnName("id_project");
 
-                entity.Property(e => e.Date)
-                    .HasColumnType("timestamp with time zone")
-                    .HasColumnName("date");
+                entity.Property(e => e.IdUser)
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .HasColumnName("id_user");
 
                 entity.HasOne(d => d.IdProjectNavigation)
                     .WithMany(p => p.Members)
@@ -218,7 +224,8 @@ namespace backend.Models
                     .HasColumnName("description");
 
                 entity.Property(e => e.IdUser)
-                    .ValueGeneratedOnAdd()
+                    .IsRequired()
+                    .HasMaxLength(255)
                     .HasColumnName("id_user");
 
                 entity.Property(e => e.Name)

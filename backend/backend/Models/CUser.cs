@@ -14,7 +14,7 @@ namespace backend.Models
             Projects = new HashSet<Project>();
         }
 
-        public long IdUser { get; set; }
+        public string IdUser { get; set; }
         public string Username { get; set; }
         public string Email { get; set; }
         public string Name { get; set; }
