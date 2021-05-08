@@ -3,6 +3,7 @@ import VueRouter, { RouteConfig } from "vue-router";
 import Login from "../views/Login.vue";
 import Projects from "../views/Projects.vue";
 import Inference from "../views/Inference.vue";
+import Register from "../views/Register.vue";
 
 Vue.use(VueRouter);
 
@@ -24,6 +25,11 @@ const routes: Array<RouteConfig> = [
     path: "/Inference",
     name: "Inference",
     component: Inference,
+  },
+  {
+    path: "/Register",
+    name: "Register",
+    component: Register,
   },
 ];
 

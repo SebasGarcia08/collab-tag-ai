@@ -1,9 +1,8 @@
 <template>
   <div class="container relative">
-    <SideBar :buttons="buttonsarr" class="fixed" />
-    <main class="ml-20 min-h-screen flex flex-col justify-center">
-      <label class="text-center font-bold mt-2 mb-8 text-7xl"> Welcome to CollabTag.ai </label>
-      <LoginBox />
+    <SideBar :buttons="buttonsarr" class="absolute" />
+    <main class="ml-20">
+      <RegisterBox />
     </main>
   </div>
 </template>
@@ -11,7 +10,7 @@
 <script lang="ts">
 import Vue from "vue";
 import SideBar from "../components/SideBar.vue";
-import LoginBox from "../components/LoginBox.vue";
+import RegisterBox from "../components/RegisterBox.vue";
 import Component from "vue-class-component";
 import { Item } from "../model/Item";
 
@@ -19,7 +18,7 @@ import { Item } from "../model/Item";
 @Component({
   components: {
     SideBar,
-    LoginBox,
+    RegisterBox,
   },
 })
 export default class Login extends Vue {

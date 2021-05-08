@@ -1,8 +1,19 @@
 <template>
   <div class="container relative">
     <SideBar :buttons="buttonsarr" class="fixed" />
-    <main class="mx-20 space-y-5">
-      <h1 class="text-8xl p-10">Projects</h1>
+    <main class="ml-20 space-y-5">
+      <div class="pl-10 flex flex-row">
+        <label class="mt-5 text-8xl">Projects</label>
+        <!-- Add project -->
+        <Button :text="showAddProject ? 'Cancel' : 'Add Project'"
+        :class="showAddProject ? 'bg-red-500 hover:bg-red-600' : 'bg-blue-500 hover:bg-blue-600'"
+        @toggle-add-project="toggleAddProject" class="ml-auto mt-8 mr-8 w-48" />
+      </div>
+
+      <div v-show="showAddProject">
+        <AddProject @add-project="addProject" class="ml-auto mr-8"/> 
+      </div>
+
       <!-- Projects -->
       <div class="w-full" v-for="project in projects" :key="project">
         <ProjectPreview
@@ -24,12 +35,16 @@ import Component from "vue-class-component";
 import { Item } from "../model/Item";
 import { Project } from "../model/Project";
 import { ProjectsLoader } from "../repositories/ProjectsLoader";
+import AddProject from "../components/AddProject.vue";
+import Button from "../components/Button.vue";
 
 // The @Component decorator indicates the class is a Vue component
 @Component({
   components: {
     SideBar,
     ProjectPreview,
+    AddProject,
+    Button
   },
 })
 export default class Projects extends Vue {
@@ -52,6 +67,16 @@ export default class Projects extends Vue {
       icon: "fas fa-chart-bar fa-2x",
     },
   ];
+
+  showAddProject = false;
+
+  toggleAddProject () {
+    this.showAddProject = !this.showAddProject;
+  }
+
+  addProject (new_project) {
+    // Send it to the DB
+  }
 
   projects: Array<Project> = [];
 
