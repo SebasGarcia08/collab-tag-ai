@@ -3,7 +3,7 @@
     class="navbar group-foo fized w-20 h-screen bg-blue-400 hover:w-56 duration-200 ease-in"
   >
     <ul class="navbar-nav p-0 m-0 h-screen flex flex-col items-center">
-      <div class="w-full" v-for="button in buttons" :key="button">
+      <div class="w-full" v-for="(button, idx) in buttons" :key="idx">
         <SideBarButton
           :text="button.text"
           :route="button.route"

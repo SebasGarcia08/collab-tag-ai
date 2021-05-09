@@ -13,7 +13,7 @@
     <div class="flex justify-center">
       
     <button class="w-1/4 py-2 px-4 bg-blue-500 hover:bg-blue-600 rounded-md text-white flex justify-center" 
-    v-on:click="handleButton(0)"> Rock {{ numRocks }} </button>
+    v-on:click="handleButton(0)"> Rock {{ numRocksTest }} </button>
 
     <button class="w-1/4 py-2 px-4 bg-blue-500 hover:bg-blue-600 rounded-md text-white flex justify-center" 
     type="button" v-on:click="handleButton(1)"> Paper {{ numPapers }}</button>
@@ -42,7 +42,7 @@
           id="stopPredicting" v-on:click="stopPredicting">
         Stop Predicting
       </button>
-      <div id="prediction">{{ prediction }}}</div>
+      <div id="prediction">{{ prediction }}</div>
      </div>
   </div>
 </template>
@@ -67,6 +67,8 @@ export default class WebcamPanel extends Vue {
   public isPredicting: boolean;
   public dataset: Dataset;
   public webcam: Webcam;
+
+  numRocksTest = 0;
 
   constructor() {
     super();
@@ -137,6 +139,9 @@ export default class WebcamPanel extends Vue {
 
   handleButton(id: number): void {
       this.numSamples[id] += 1;
+      if (id === 0) {
+        this.numRocksTest += 1;
+      }
       console.log("NUM SAMPLS"+this.numSamples)
       const img = this.webcam.capture();
       const features = this.mobilenet.predict(img);
