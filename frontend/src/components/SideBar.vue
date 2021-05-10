@@ -13,9 +13,9 @@
 
       <!-- Log out button -->
       <li class="nav-item w-full mt-auto group-bar">
-        <router-link
-          to="/"
-          class="nav-link flex items-center h-20 no-underline duration-200 hover:bg-blue-600"
+        <a
+          @click="logout"
+          class="nav-link w-full flex items-center h-20 no-underline duration-200 hover:bg-blue-600"
         >
           <!-- Insert icon/image here -->
           <i
@@ -24,9 +24,9 @@
           <span
             class="link-text hidden m-4 group-foo-hover:block font-bold text-blue-900 text-xl group-bar-hover:text-white"
           >
-            Log out
+            Logout
           </span>
-        </router-link>
+        </a>
       </li>
     </ul>
   </nav>
@@ -35,14 +35,24 @@
 <script lang="ts">
 import Vue from "vue";
 import SideBarButton from "./SideBarButton.vue";
-export default Vue.extend({
-  name: "SideBar",
+import Component from "vue-class-component";
+import { Prop } from 'vue-property-decorator';
+import { Item } from "../model/Item";
+import firebase from "firebase/app";
+
+// The @Component decorator indicates the class is a Vue component
+@Component({
   components: {
     SideBarButton,
   },
-  props: {
-    buttons: Array,
-  },
-  data: () => ({}),
-});
+})
+export default class SideBar extends Vue {
+  // Initial data can be declared as instance properties
+
+  @Prop() buttons!: Array<Item>
+
+  logout () {
+    firebase.auth().signOut().then(() => this.$router.replace('Login'));
+  }
+}
 </script>

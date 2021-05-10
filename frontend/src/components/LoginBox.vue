@@ -35,9 +35,9 @@
         >
       </div>
     </form>
-    <pre>
+    <!-- <pre>
       {{ $data }}
-    </pre>
+    </pre> -->
   </div>
 </template>
 
@@ -64,6 +64,7 @@ export default class Projects extends Vue {
       .then((userCredential) => {
         // Signed in
         alert("Usuario conectado")
+        this.$router.replace('Projects');
         var user = userCredential.user;
         // ...
         (error) => console.error(error);

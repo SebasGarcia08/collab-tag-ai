@@ -4,10 +4,15 @@ import Login from "../views/Login.vue";
 import Projects from "../views/Projects.vue";
 import Inference from "../views/Inference.vue";
 import Register from "../views/Register.vue";
+import firebase from "firebase/app";
 
 Vue.use(VueRouter);
 
 const routes: Array<RouteConfig> = [
+  {
+    path: "*",
+    redirect: "/",
+  },
   {
     path: "/",
     name: "Login",
@@ -20,6 +25,9 @@ const routes: Array<RouteConfig> = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: Projects,
+    meta: {
+      authenticated: true,
+    }
   },
   {
     path: "/Inference",
@@ -40,3 +48,17 @@ const router = new VueRouter({
 });
 
 export default router;
+
+router.beforeEach((to, from, next) => {
+  const user = firebase.auth().currentUser;
+  console.log(user);
+  const authorization = to.matched.some(record => record.meta.authenticated);
+
+  if (authorization && !user) {
+    next('Login');
+  } else if (!authorization && user) {
+    next('Projects');
+  } else {
+    next();
+  }
+})
