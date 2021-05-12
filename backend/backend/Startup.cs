@@ -31,7 +31,7 @@ namespace backend
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddDbContext<CollabtagContext.cs.cs>(opt => opt.UseNpgsql("Host=localhost;Database=collabtag;Username=postgres;Password=postgres"));
+            services.AddDbContext<CollabtagContext>(opt => opt.UseNpgsql("Host=localhost;Database=collabtag;Username=postgres;Password=postgres"));
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -47,7 +47,7 @@ namespace backend
                 options.AddDefaultPolicy(
                     builder =>
                     {
-                        builder.WithOrigins("https://localhost:5001", "http://localhost:8080");
+                        builder.WithOrigins("http://localhost:8080", "http://localhost:8081");
                     });
             });
             
@@ -93,11 +93,6 @@ namespace backend
             {
                 endpoints.MapControllers();
             });
-
-            //app.UseCors(builder => builder.WithOrigins("https://localhost:5001")); //TODO
-           
-
-
         }
     }
 }
