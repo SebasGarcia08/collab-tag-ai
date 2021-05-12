@@ -37,7 +37,7 @@ namespace backend.Controllers
         }
         
         [HttpGet("api/users/{userId}")]
-        public ActionResult<CUser> GetUserById(long userId)
+        public ActionResult<CUser> GetUserById(string userId)
         {
             try
             {
@@ -45,7 +45,7 @@ namespace backend.Controllers
                 //     .Include(user => user.Projects)
                 //     .Where(u => u.IdUser == userId)
                 //     .FirstOrDefault();
-                return _context.CUsers.Single(u => u.IdUser == userId);
+                return _context.CUsers.Single(u => u.IdUser.Equals(userId));
             }
             catch
             {

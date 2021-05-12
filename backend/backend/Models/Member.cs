@@ -7,7 +7,8 @@ namespace backend.Models
 {
     public partial class Member
     {
-        public long IdUser { get; set; }
+        public long IdMember { get; set; }
+        public string IdUser { get; set; }
         public long IdProject { get; set; }
         public DateTime Date { get; set; }
 

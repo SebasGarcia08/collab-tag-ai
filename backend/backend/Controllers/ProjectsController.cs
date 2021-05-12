@@ -85,9 +85,9 @@ namespace backend.Controllers
         }
 
         [HttpGet("api/project/{userId}")]
-        public ActionResult<List<Project>> getProjectsByUserId(long userId)
+        public ActionResult<List<Project>> getProjectsByUserId(string userId)
         {
-            var projects = _context.Projects.Where(p => p.IdUser == userId).ToList();
+            var projects = _context.Projects.Where(p => p.IdUser.Equals(userId)).ToList();
             return projects;
         }
             
