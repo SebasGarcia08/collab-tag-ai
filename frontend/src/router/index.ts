@@ -1,7 +1,7 @@
 import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
 import Login from "../views/Login.vue";
-import Projects from "../views/Projects.vue";
+import Projects from "../views/ProjectsList.vue";
 import Inference from "../views/Inference.vue";
 import Register from "../views/Register.vue";
 import firebase from "firebase/app";

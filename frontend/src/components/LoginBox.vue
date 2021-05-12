@@ -65,7 +65,7 @@ export default class Projects extends Vue {
         // Signed in
         alert("Usuario conectado")
         this.$router.replace('Projects');
-        var user = userCredential.user;
+        this.$data.user = userCredential.user;
         // ...
         (error) => console.error(error);
       })

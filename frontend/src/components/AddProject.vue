@@ -62,6 +62,8 @@ export default class Projects extends Vue {
 
       const new_project: Project = new Project(this.project_name, date, this.description);
 
+      console.log(new_project);
+
       this.$emit('add-project', new_project);
 
       this.project_name = ''
