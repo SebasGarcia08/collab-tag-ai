@@ -1,18 +1,19 @@
 <template>
-  <div class="container">
+  <div class="container pl-10 pr-8">
+    <!-- Project -->
     <div
-      class="max-w-nd shadow-md bg-gray-50 flex flex-row w-1/2 border border-black rounded-xl"
+      class="max-w-nd shadow-md bg-gray-50 flex flex-row border border-black rounded-xl hover:bg-gray-100"
     >
       <div class="flex flex-col">
         <!-- Project name -->
         <p class="ml-5 mt-5 mb-5 text-xl font-bold text-blue-900">
-          {{ projectName }}
+          {{ name }}
         </p>
         <!-- Description -->
         <p class="ml-5 mb-5 text-justify">{{ description }}</p>
       </div>
       <!-- Preview image -->
-      <div class="m-5 p-8 w-1/4 flex flex-col justify-center">
+      <div class="m-5 p-8 flex flex-col justify-center ml-auto">
         <i class="fas fa-project-diagram fa-5x text-blue-900"></i>
       </div>
     </div>
@@ -25,7 +26,7 @@ export default Vue.extend({
   name: "ProjectPreview",
 
   props: {
-    projectName: String,
+    name: String,
     description: {
       type: String,
       default:
