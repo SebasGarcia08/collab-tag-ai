@@ -24,6 +24,12 @@ firebase.auth().onAuthStateChanged(function(user){
   new Vue({
     router,
     render: (h) => h(App),
+    
+    // data() {
+    //   return {
+    //     user: :user,
+    //   }
+    // }
   }).$mount("#app");
 });
 

@@ -15,7 +15,7 @@
       </div>
 
       <!-- Projects -->
-      <div class="w-full" v-for="project in projects" :key="project">
+      <div class="w-full" v-for="(project, idx) in projects" :key="idx">
         <ProjectPreview
           :name="project.name"
           :date="project.date"
@@ -83,9 +83,8 @@ export default class Projects extends Vue {
   projectsLoader: ProjectsLoader = new ProjectsLoader();
 
   async fetchProjects() {
-    await this.projectsLoader
-      .loadProjects(1)
-      .then((response) => {
+    // this.$data.user.getIdToken(true).then((token) => {
+      this.projectsLoader.loadProjects(1).then((response) => {
         console.log(response);
         this.projects = response.data;
       })
@@ -93,6 +92,7 @@ export default class Projects extends Vue {
         alert("Couldn't connect to API");
         console.log(Error);
       });
+    //})
   }
 
   created() {

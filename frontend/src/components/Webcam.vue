@@ -16,10 +16,10 @@
     v-on:click="handleButton(0)"> Rock {{ numRocksTest }} </button>
 
     <button class="w-1/4 py-2 px-4 bg-blue-500 hover:bg-blue-600 rounded-md text-white flex justify-center" 
-    type="button" v-on:click="handleButton(1)"> Paper {{ numPapers }}</button>
+    type="button" v-on:click="handleButton(1)"> Paper {{ numPapersTest }}</button>
     
     <button class="w-1/4 py-2 px-4 bg-blue-500 hover:bg-blue-600 rounded-md text-white flex justify-center" 
-    type="button" v-on:click="handleButton(2)"> Scissors {{ numScissors }} </button>
+    type="button" v-on:click="handleButton(2)"> Scissors {{ numScissorsTest }} </button>
 
      </div>
     <div class="flex justify-center">
@@ -69,6 +69,8 @@ export default class WebcamPanel extends Vue {
   public webcam: Webcam;
 
   numRocksTest = 0;
+  numPapersTest = 0;
+  numScissorsTest = 0;
 
   constructor() {
     super();
@@ -141,6 +143,10 @@ export default class WebcamPanel extends Vue {
       this.numSamples[id] += 1;
       if (id === 0) {
         this.numRocksTest += 1;
+      } else if (id === 1) {
+        this.numPapersTest += 1;
+      } else {
+        this.numScissorsTest += 1;
       }
       console.log("NUM SAMPLS"+this.numSamples)
       const img = this.webcam.capture();

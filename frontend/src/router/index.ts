@@ -33,6 +33,9 @@ const routes: Array<RouteConfig> = [
     path: "/Inference",
     name: "Inference",
     component: Inference,
+    meta: {
+      authenticated: true,
+    }
   },
   {
     path: "/Register",

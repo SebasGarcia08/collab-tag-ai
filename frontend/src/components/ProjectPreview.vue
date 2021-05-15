@@ -1,5 +1,5 @@
 <template>
-  <div class="container pl-10">
+  <div class="container pl-10 pr-8">
     <!-- Project -->
     <div
       class="max-w-nd shadow-md bg-gray-50 flex flex-row border border-black rounded-xl hover:bg-gray-100"
