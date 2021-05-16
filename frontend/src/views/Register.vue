@@ -2,8 +2,7 @@
   <div class="container relative">
     <SideBar :buttons="buttonsarr" class="absolute" />
     <main class="ml-20">
-      <h1 class="text-8xl p-10">Projects</h1>
-      <ProjectPreview projectName="Project Name" class="pl-10" />
+      <RegisterBox />
     </main>
   </div>
 </template>
@@ -11,7 +10,7 @@
 <script lang="ts">
 import Vue from "vue";
 import SideBar from "../components/SideBar.vue";
-import ProjectPreview from "../components/ProjectPreview.vue";
+import RegisterBox from "../components/RegisterBox.vue";
 import Component from "vue-class-component";
 import { Item } from "../model/Item";
 
@@ -19,10 +18,10 @@ import { Item } from "../model/Item";
 @Component({
   components: {
     SideBar,
-    ProjectPreview,
+    RegisterBox,
   },
 })
-export default class Projects extends Vue {
+export default class Login extends Vue {
   // Initial data can be declared as instance properties
 
   buttonsarr: Array<Item> = [

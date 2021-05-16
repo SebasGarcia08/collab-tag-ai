@@ -11,8 +11,8 @@
       ></i>
       <span
         class="link-text hidden m-4 group-foo-hover:block font-bold text-blue-900 text-xl group-bar-hover:text-white"
-        >{{ text }}</span
-      >
+        >{{ text }}
+      </span>
     </router-link>
   </li>
 </template>

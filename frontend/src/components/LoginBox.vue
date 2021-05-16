@@ -1,55 +1,73 @@
 <template>
-  <div class="min-h-screen bg-gray-50 flex flex-col justify-center">
-    <div class="max-w-nd w-full mx-auto">
-      <div class="text-center font-bold mt-2 mb-8 text-7xl">
-        Welcome to CollabTag.ai
+  <div
+    class="mx-auto w-1/4"
+  >
+    <form @submit.prevent="login" class="mt-4 p-8 border rounded-xl border-gray-300 shadow-md">
+      <!-- Username field -->
+      <div>
+        <label class="text-m font-bold text-gray-600 block"> Username: </label>
+        <input
+          type="text"
+          name="username" v-model="user"
+          class="block w-full p-2 rounded border-2 border-solid border-gray-500"
+        />
       </div>
-    </div>
-
-    <div
-      class="max-w-nd mx-auto w-1/4 mt-4 bg-white p-8 border rounded-xl border-gray-300"
-    >
-      <form action="">
-        <div>
-          <label class="text-m font-bold text-gray-600 block">
-            Username:
-          </label>
-          <input
-            type="text"
-            class="block w-full p-2 rounded border-2 border-solid border-gray-500"
-          />
-        </div>
-        <div class="mt-5">
-          <label class="text-m font-bold text-gray-600 block">
-            Password:
-          </label>
-          <input
-            type="password"
-            class="block w-full p-2 rounded border-2 border-solid border-gray-500"
-          />
-        </div>
-        <div class="mt-10 flex justify-center">
-          <button
-            class="w-1/4 py-2 px-4 bg-blue-500 hover:bg-blue-600 rounded-md text-white flex justify-center"
-          >
-            Login
-          </button>
-          <!-- <input type="submit" value="Login" class="py-3 bg-green-500 text-m font-bold text-white w-full rounded hover:bg-green-600"> -->
-        </div>
-        <div class="mt-5 flex justify-center">
-          <p class="pr-1">Don't have an account?</p>
-          <a href="" class="font-medium text-blue-500">create one</a>
-        </div>
-      </form>
-    </div>
+      <!-- Password field -->
+      <div class="mt-5">
+        <label class="text-m font-bold text-gray-600 block"> Password: </label>
+        <input
+          type="password"
+          name="password" v-model="password"
+          class="block w-full p-2 rounded border-2 border-solid border-gray-500"
+        />
+      </div>
+      <div class="mt-10 flex justify-center">
+        <button
+          class="py-2 px-4 bg-blue-500 hover:bg-blue-600 rounded-md text-white flex justify-center"
+        >
+          Login
+        </button>
+      </div>
+      <div class="mt-5 flex justify-center">
+        <p class="pr-1">Don't have an account?</p>
+        <router-link to="/Register" class="font-medium text-blue-500"
+          >create one</router-link
+        >
+      </div>
+    </form>
+    <!-- <pre>
+      {{ $data }}
+    </pre> -->
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-export default Vue.extend({
-  name: "LoginBox",
+import Component from "vue-class-component";
+import firebase from "firebase/app";
+import "firebase/auth";
 
-  data: () => ({}),
-});
+// The @Component decorator indicates the class is a Vue component
+@Component({
+  components: {},
+})
+export default class Projects extends Vue {
+  // Initial data can be declared as instance properties
+
+  user = "";
+  password = "";
+
+  login() {
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(this.user, this.password)
+      .then((userCredential) => {
+        // Signed in
+        this.$router.replace('Projects');
+        //this.$data.user = userCredential.user;
+        // ...
+        (error) => console.error(error);
+      })
+  }
+}
 </script>
