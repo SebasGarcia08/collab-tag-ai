@@ -3,8 +3,10 @@ import VueRouter, { RouteConfig } from "vue-router";
 import Login from "../views/Login.vue";
 import Projects from "../views/ProjectsList.vue";
 import Inference from "../views/Inference.vue";
+import Test from "../views/Test.vue";
 import Register from "../views/Register.vue";
 import firebase from "firebase/app";
+
 
 Vue.use(VueRouter);
 
@@ -42,6 +44,11 @@ const routes: Array<RouteConfig> = [
     name: "Register",
     component: Register,
   },
+  {
+    path:"/test",
+    name: "Test",
+    component: Test,
+  }
 ];
 
 const router = new VueRouter({

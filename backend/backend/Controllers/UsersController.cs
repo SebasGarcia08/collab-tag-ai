@@ -52,6 +52,24 @@ namespace backend.Controllers
                 return new NotFoundResult();
             }
         }
+        
+        [HttpGet("api/users/query")]
+        public ActionResult<CUser> GetUserByQuery([FromQuery(Name = "mail")] string userId)
+        {
+            try
+            {
+                // return _context.CUsers
+                //     .Include(user => user.Projects)
+                //     .Where(u => u.IdUser == userId)
+                //     .FirstOrDefault();
+                return _context.CUsers.Single(u => u.IdUser.Equals(userId));
+            }
+            catch
+            {
+                return new NotFoundResult();
+            }
+        }
+        
 
         [HttpPost("api/users")]
         public ActionResult<CUser> addUser(CUser user)
