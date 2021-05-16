@@ -47,7 +47,9 @@ namespace backend
                 options.AddDefaultPolicy(
                     builder =>
                     {
-                        builder.WithOrigins("http://localhost:8080", "http://localhost:8081");
+                        builder.WithOrigins("http://localhost:8080", "http://localhost:8081")
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();;
                     });
             });
             
