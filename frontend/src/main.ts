@@ -25,11 +25,11 @@ firebase.auth().onAuthStateChanged(function(user){
     router,
     render: (h) => h(App),
     
-    // data() {
-    //   return {
-    //     user: :user,
-    //   }
-    // }
+    data() {
+      return {
+        //
+      }
+    }
   }).$mount("#app");
 });
 

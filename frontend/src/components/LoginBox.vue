@@ -8,7 +8,7 @@
         <label class="text-m font-bold text-gray-600 block"> Username: </label>
         <input
           type="text"
-          name="username" v-model="user"
+          name="username" v-model="email"
           class="block w-full p-2 rounded border-2 border-solid border-gray-500"
         />
       </div>
@@ -54,17 +54,16 @@ import "firebase/auth";
 export default class Projects extends Vue {
   // Initial data can be declared as instance properties
 
-  user = "";
+  email = "";
   password = "";
 
   login() {
     firebase
       .auth()
-      .signInWithEmailAndPassword(this.user, this.password)
+      .signInWithEmailAndPassword(this.email, this.password)
       .then((userCredential) => {
         // Signed in
         this.$router.replace('Projects');
-        //this.$data.user = userCredential.user;
         // ...
         (error) => console.error(error);
       })

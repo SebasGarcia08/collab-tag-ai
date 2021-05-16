@@ -5,13 +5,20 @@
       <div class="pl-10 flex flex-row">
         <label class="mt-5 text-8xl">Projects</label>
         <!-- Add project -->
-        <Button :text="showAddProject ? 'Cancel' : 'Add Project'"
-        :class="showAddProject ? 'bg-red-500 hover:bg-red-600' : 'bg-blue-500 hover:bg-blue-600'"
-        @toggle-add-project="toggleAddProject" class="ml-auto mt-8 mr-8 w-48" />
+        <Button
+          :text="showAddProject ? 'Cancel' : 'Add Project'"
+          :class="
+            showAddProject
+              ? 'bg-red-500 hover:bg-red-600'
+              : 'bg-blue-500 hover:bg-blue-600'
+          "
+          @toggle-add-project="toggleAddProject"
+          class="ml-auto mt-8 mr-8 w-48"
+        />
       </div>
 
       <div v-show="showAddProject">
-        <AddProject @add-project="addProject" class="ml-auto mr-8"/> 
+        <AddProject @add-project="addProject" class="ml-auto mr-8" />
       </div>
 
       <!-- Projects -->
@@ -37,6 +44,7 @@ import { Project } from "../model/Project";
 import { ProjectsLoader } from "../repositories/ProjectsLoader";
 import AddProject from "../components/AddProject.vue";
 import Button from "../components/Button.vue";
+import firebase from "firebase/app";
 
 // The @Component decorator indicates the class is a Vue component
 @Component({
@@ -44,7 +52,7 @@ import Button from "../components/Button.vue";
     SideBar,
     ProjectPreview,
     AddProject,
-    Button
+    Button,
   },
 })
 export default class Projects extends Vue {
@@ -70,11 +78,11 @@ export default class Projects extends Vue {
 
   showAddProject = false;
 
-  toggleAddProject () {
+  toggleAddProject() {
     this.showAddProject = !this.showAddProject;
   }
 
-  addProject (new_project) {
+  addProject(new_project) {
     // Send it to the DB
   }
 
@@ -83,8 +91,12 @@ export default class Projects extends Vue {
   projectsLoader: ProjectsLoader = new ProjectsLoader();
 
   async fetchProjects() {
-    // this.$data.user.getIdToken(true).then((token) => {
-      this.projectsLoader.loadProjects(1).then((response) => {
+    const user = firebase.auth().currentUser;
+    console.log(user);
+
+    this.projectsLoader
+      .loadProjects(1)
+      .then((response) => {
         console.log(response);
         this.projects = response.data;
       })
@@ -92,7 +104,6 @@ export default class Projects extends Vue {
         alert("Couldn't connect to API");
         console.log(Error);
       });
-    //})
   }
 
   created() {

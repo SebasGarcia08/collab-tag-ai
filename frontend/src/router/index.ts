@@ -54,7 +54,7 @@ export default router;
 
 router.beforeEach((to, from, next) => {
   const user = firebase.auth().currentUser;
-  console.log(user);
+  // console.log(user);
   const authorization = to.matched.some(record => record.meta.authenticated);
 
   if (authorization && !user) {
