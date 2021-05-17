@@ -33,4 +33,3 @@ firebase.auth().onAuthStateChanged(function(user){
   }).$mount("#app");
 });
 
-

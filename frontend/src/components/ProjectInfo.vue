@@ -80,6 +80,7 @@
 import Vue from "vue";
 import Component from "vue-class-component";
 import { Prop } from 'vue-property-decorator';
+import store from "../model/Store";
 
 // The @Component decorator indicates the class is a Vue component
 @Component({
@@ -92,6 +93,8 @@ export default class ProjectInfo extends Vue {
 
   @Prop({default: 'Project name'}) name!: string;
   @Prop({default: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'}) description!: string;
+
+  test: string = store.currentUserId;
 
 }
 </script>
