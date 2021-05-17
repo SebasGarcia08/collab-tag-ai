@@ -79,31 +79,36 @@ export default class Projects extends Vue {
   showAddProject = false;
 
   toggleAddProject() {
+    console.log(this.$root.$data);
     this.showAddProject = !this.showAddProject;
-  }
-
-  addProject(new_project) {
-    // Send it to the DB
   }
 
   projects: Array<Project> = [];
 
   projectsLoader: ProjectsLoader = new ProjectsLoader();
 
+  addProject(new_project) {
+
+    this.projects.push(new_project);
+
+  }
+
   async fetchProjects() {
-    const user = firebase.auth().currentUser;
+    const user = await firebase.auth().currentUser;
     console.log(user);
 
-    this.projectsLoader
-      .loadProjects(1)
-      .then((response) => {
-        console.log(response);
-        this.projects = response.data;
-      })
-      .catch((Error) => {
-        alert("Couldn't connect to API");
-        console.log(Error);
-      });
+    if (user != null) {
+      await this.projectsLoader
+        .loadProjects(user.uid)
+        .then((response) => {
+          console.log(response);
+          this.projects = response.data;
+        })
+        .catch((Error) => {
+          alert("Couldn't connect to API");
+          console.log(Error);
+        });
+    }
   }
 
   created() {

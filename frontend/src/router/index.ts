@@ -5,6 +5,7 @@ import Projects from "../views/ProjectsList.vue";
 import Inference from "../views/Inference.vue";
 import Test from "../views/Test.vue";
 import Register from "../views/Register.vue";
+import ProjectFull from "../views/ProjectFull.vue";
 import firebase from "firebase/app";
 
 
@@ -43,6 +44,14 @@ const routes: Array<RouteConfig> = [
     path: "/Register",
     name: "Register",
     component: Register,
+  },
+  {
+    path:"/ProjectFull",
+    name: "ProjectFull",
+    component: ProjectFull,
+    meta: {
+      authenticated: true,
+    }
   },
   {
     path:"/test",

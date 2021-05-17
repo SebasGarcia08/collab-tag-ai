@@ -46,16 +46,19 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import firebase from "firebase/app";
 import "firebase/auth";
+import store from "../model/Store";
 
 // The @Component decorator indicates the class is a Vue component
 @Component({
   components: {},
 })
-export default class Projects extends Vue {
+export default class LoginBox extends Vue {
   // Initial data can be declared as instance properties
 
   email = "";
   password = "";
+
+  globalState;
 
   login() {
     firebase
@@ -63,6 +66,13 @@ export default class Projects extends Vue {
       .signInWithEmailAndPassword(this.email, this.password)
       .then((userCredential) => {
         // Signed in
+        if ( userCredential.user != null) {
+          store.currentUserId = userCredential.user.uid;
+          console.log(store.currentUserId);
+          // this.$root.$data.store.currentUserId = userCredential.user.uid;
+          // console.log(this.$root.$data);
+        }
+
         this.$router.replace('Projects');
         // ...
         (error) => console.error(error);
