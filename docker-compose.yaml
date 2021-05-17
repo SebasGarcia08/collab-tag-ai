@@ -1,37 +1,37 @@
 version: '3.4'
 
 networks:
-    collabtag-dev:
-        driver: bridge 
+  collabtag-dev:
+    driver: bridge 
 
 services:
-    collabtag-backend:
-        image: collabtag-backend:latest
-        depends_on:
-            - "postgres"
-        build:
-        context: ./backend/backend
-        dockerfile: Dockerfile
-        ports:
-            - "5000:5000"     
-        environment:
-            DB_CONNECTION_STRING: "host=postgres;port=5432;database=blogdb;username=bloguser;password=bloguser"
-        networks:
-            - collabtag-dev
-    
-    postgres:
-        image: postgres:latest
-        ports:
-            - "5432"
-        restart: always
-        volumes:
-            - db_volume:/var/lib/postgresql/data
-            - ./postgres/collabtag_DLL.sql :/docker-entrypoint-initdb.d/seed.sql
-        environment:
-            POSTGRES_USER: "bloguser"
-            POSTGRES_PASSWORD: "bloguser"
-            POSTGRES_DB: "blogdb"
-        networks:
-            - collabtag-dev
+  collabtag-backend:
+    image: collabtag-backend:latest
+    depends_on:
+      - "postgres_image"
+    build:
+      context: .
+      dockerfile: ./backend/backend/Dockerfile
+    ports:
+      - "8000:80"     
+    environment:
+      DB_CONNECTION_STRING: "Host=postgres_image;Port=5432;Database=collabtag;Username=postgres;Password=postgres"
+    networks:
+      - collabtag-dev  
+  
+  postgres_image:
+    image: postgres:latest
+    ports:
+      - "5432"
+    restart: always
+    volumes:
+      - db_volume:/var/lib/postgresql/data
+      - ./postgres/collabtag_DDL.sql :/docker-entrypoint-initdb.d/seed.sql
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_DB: "collabtag"
+    networks:
+      - collabtag-dev
 volumes:
-    db_volume:
+  db_volume:

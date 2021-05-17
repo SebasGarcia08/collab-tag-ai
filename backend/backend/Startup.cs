@@ -31,7 +31,8 @@ namespace backend
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<CollabtagContext>(opt => opt.UseNpgsql("Host=localhost;Database=collabtag;Username=postgres;Password=postgres"));
+//            services.AddDbContext<CollabtagContext>(opt => opt.UseNpgsql("Host=localhost;Database=collabtag;Username=postgres;Password=postgres"));
+            services.AddDbContext<CollabtagContext>(opt => opt.UseNpgsql("Host=postgres_image;Database=collabtag;Username=postgres;Password=postgres"));
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {

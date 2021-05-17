@@ -2,7 +2,7 @@
 WORKDIR /app
 
 COPY *.csproj ./
-RUN dotnet restore backend.csproj
+RUN dotnet restore
 
 COPY . ./
 RUN dotnet publish backend.csproj -c Release -o out
@@ -10,8 +10,6 @@ RUN dotnet publish backend.csproj -c Release -o out
 FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS runtime
 
 WORKDIR /app
-
-EXPOSE 5000
 
 COPY --from=build /app/out .
 
