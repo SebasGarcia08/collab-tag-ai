@@ -49,6 +49,7 @@ const routes: Array<RouteConfig> = [
     path:"/ProjectFull",
     name: "ProjectFull",
     component: ProjectFull,
+    props: true,
     meta: {
       authenticated: true,
     }

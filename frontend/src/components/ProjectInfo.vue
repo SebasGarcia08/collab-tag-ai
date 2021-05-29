@@ -7,13 +7,18 @@
       <div class="pl-10 flex flex-col">
         <!-- Project name -->
         <p class="mt-5 mb-5 text-8xl font-semibold text-blue-900">
-          {{ name }}
+          {{ project.name }}
         </p>
       </div>
       <!-- Preview image -->
       <div class="p-8 flex flex-col justify-center ml-auto">
         <i class="fas fa-project-diagram fa-5x text-blue-900"></i>
       </div>
+    </div>
+    <div class="w-full flex flex-row">
+      <a class="mx-auto border rounded bg-blue-500 hover:bg-blue-600 shadow-sm text-white font-semibold w-36 p-2">Upload Images</a>
+      <a class="mx-auto border rounded bg-blue-500 hover:bg-blue-600 shadow-sm text-white font-semibold w-36 p-2">Classify Images</a>
+      <a class="mx-auto border rounded bg-blue-500 hover:bg-blue-600 shadow-sm text-white font-semibold w-36 p-2">Inference</a>
     </div>
     <!-- Collaborators -->
     <div class="mt-5 w-full border flex flex-row">
@@ -39,7 +44,7 @@
       </div>
       <div class="w-full">
         <p class="px-5 text-justify">
-          {{ description }}
+          {{ project.description }}
         </p>
       </div>
     </div>
@@ -51,11 +56,11 @@
         </label>
       </div>
       <div class="w-full">
-        <p class="px-5 text-justify">
-          - Class A: 20%<br>
-          - Class B: 10%<br>
-          - Class C: 70%
-        </p>
+        <div class="px-5 text-justify" v-for="(pjClass, idx) in classes" :key="idx">
+          <p>
+          - {{ pjClass }}<br>
+          </p>
+        </div>
       </div>
     </div>
     <!-- Tasks -->
@@ -94,7 +99,8 @@ export default class ProjectInfo extends Vue {
   @Prop({default: 'Project name'}) name!: string;
   @Prop({default: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'}) description!: string;
 
-  test: string = store.currentUserId;
+  project = store.currentProject;
 
+  classes: Array<string> = ["Cats", "Dogs"];
 }
 </script>

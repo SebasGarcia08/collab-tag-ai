@@ -1,9 +1,11 @@
 import Vue from 'vue';
+import { Project } from "../model/Project";
 
 const store = {};
 
 export default Vue.observable({
     currentUserId: "",
+    currentProject: Project,
 });
 
 // export class Store {

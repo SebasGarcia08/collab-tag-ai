@@ -27,6 +27,8 @@
           :name="project.name"
           :date="project.date"
           :description="project.description"
+          :projectId="project.idProject"
+          :project="project"
         />
       </div>
       <!-- <ProjectPreview name="Project Name" class="pl-10 h-full" /> -->
