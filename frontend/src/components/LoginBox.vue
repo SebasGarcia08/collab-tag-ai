@@ -58,8 +58,6 @@ export default class LoginBox extends Vue {
   email = "";
   password = "";
 
-  globalState;
-
   login() {
     firebase
       .auth()

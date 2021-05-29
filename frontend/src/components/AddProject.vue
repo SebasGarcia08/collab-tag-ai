@@ -47,7 +47,7 @@ import firebase from "firebase/app";
 @Component({
   components: {},
 })
-export default class Projects extends Vue {
+export default class AddProject extends Vue {
   // Initial data can be declared as instance properties
 
   project_name = "";
@@ -82,18 +82,18 @@ export default class Projects extends Vue {
       );
 
       this.projectsLoader.createProject(new_project).then((response) => {
-        console.log(response);
+        //console.log(response);
         //new_project = response;
         new_project.idProject = response.data.idProject;
       });
 
       this.$emit("add-project", new_project);
+
+      console.log(new_project);
     }
 
-    //console.log(new_project);
-
-    this.project_name = "";
-    this.description = "";
+    // this.project_name = "";
+    // this.description = "";
   }
 }
 </script>
