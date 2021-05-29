@@ -1,11 +1,22 @@
+import { Classes } from "./Classes";
+import { Models } from "./Models";
+
 export class Project {
-    public name: string;
-    public date: string;
-    public description: string;
-  
-    constructor(name: string, date: string, description: string) {
-      this.name = name;
-      this.date = date;
-      this.description = description;
-    }
+  public idProject: number;
+  public name: string;
+  public date: string;
+  public description: string;
+  public idUser: string;
+  public classes: Array<Classes>;
+  public models: Array<Models>;
+
+  constructor(name: string, date: string, description: string, idUser: string) {
+    this.idProject = -1;
+    this.name = name;
+    this.date = date;
+    this.description = description;
+    this.idUser = idUser;
+    this.classes = [];
+    this.models = [];
   }
+}

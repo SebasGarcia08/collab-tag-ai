@@ -1,7 +1,7 @@
 <template>
   <div class="container relative">
-    <SideBar :buttons="buttonsarr" class="absolute" />
-    <main class="ml-20">
+    <!-- <SideBar :buttons="buttonsarr" class="absolute" /> -->
+    <main class="">
       <RegisterBox />
     </main>
   </div>

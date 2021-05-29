@@ -5,6 +5,7 @@ import Projects from "../views/ProjectsList.vue";
 import Inference from "../views/Inference.vue";
 import Test from "../views/Test.vue";
 import Register from "../views/Register.vue";
+import ProjectFull from "../views/ProjectFull.vue";
 import firebase from "firebase/app";
 
 
@@ -45,6 +46,15 @@ const routes: Array<RouteConfig> = [
     component: Register,
   },
   {
+    path:"/ProjectFull",
+    name: "ProjectFull",
+    component: ProjectFull,
+    props: true,
+    meta: {
+      authenticated: true,
+    }
+  },
+  {
     path:"/test",
     name: "Test",
     component: Test,
@@ -61,7 +71,7 @@ export default router;
 
 router.beforeEach((to, from, next) => {
   const user = firebase.auth().currentUser;
-  console.log(user);
+  // console.log(user);
   const authorization = to.matched.some(record => record.meta.authenticated);
 
   if (authorization && !user) {

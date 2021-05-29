@@ -5,13 +5,20 @@
       <div class="pl-10 flex flex-row">
         <label class="mt-5 text-8xl">Projects</label>
         <!-- Add project -->
-        <Button :text="showAddProject ? 'Cancel' : 'Add Project'"
-        :class="showAddProject ? 'bg-red-500 hover:bg-red-600' : 'bg-blue-500 hover:bg-blue-600'"
-        @toggle-add-project="toggleAddProject" class="ml-auto mt-8 mr-8 w-48" />
+        <Button
+          :text="showAddProject ? 'Cancel' : 'Add Project'"
+          :class="
+            showAddProject
+              ? 'bg-red-500 hover:bg-red-600'
+              : 'bg-blue-500 hover:bg-blue-600'
+          "
+          @toggle-add-project="toggleAddProject"
+          class="ml-auto mt-8 mr-8 w-48"
+        />
       </div>
 
       <div v-show="showAddProject">
-        <AddProject @add-project="addProject" class="ml-auto mr-8"/> 
+        <AddProject @add-project="addProject" class="ml-auto mr-8" />
       </div>
 
       <!-- Projects -->
@@ -20,6 +27,8 @@
           :name="project.name"
           :date="project.date"
           :description="project.description"
+          :projectId="project.idProject"
+          :project="project"
         />
       </div>
       <!-- <ProjectPreview name="Project Name" class="pl-10 h-full" /> -->
@@ -37,6 +46,7 @@ import { Project } from "../model/Project";
 import { ProjectsLoader } from "../repositories/ProjectsLoader";
 import AddProject from "../components/AddProject.vue";
 import Button from "../components/Button.vue";
+import firebase from "firebase/app";
 
 // The @Component decorator indicates the class is a Vue component
 @Component({
@@ -44,7 +54,7 @@ import Button from "../components/Button.vue";
     SideBar,
     ProjectPreview,
     AddProject,
-    Button
+    Button,
   },
 })
 export default class Projects extends Vue {
@@ -70,29 +80,37 @@ export default class Projects extends Vue {
 
   showAddProject = false;
 
-  toggleAddProject () {
+  toggleAddProject() {
+    console.log(this.$root.$data);
     this.showAddProject = !this.showAddProject;
-  }
-
-  addProject (new_project) {
-    // Send it to the DB
   }
 
   projects: Array<Project> = [];
 
   projectsLoader: ProjectsLoader = new ProjectsLoader();
 
+  addProject(new_project) {
+
+    this.projects.push(new_project);
+
+  }
+
   async fetchProjects() {
-    // this.$data.user.getIdToken(true).then((token) => {
-      this.projectsLoader.loadProjects(1).then((response) => {
-        console.log(response);
-        this.projects = response.data;
-      })
-      .catch((Error) => {
-        alert("Couldn't connect to API");
-        console.log(Error);
-      });
-    //})
+    const user = await firebase.auth().currentUser;
+    console.log(user);
+
+    if (user != null) {
+      await this.projectsLoader
+        .loadProjects(user.uid)
+        .then((response) => {
+          console.log(response);
+          this.projects = response.data;
+        })
+        .catch((Error) => {
+          alert("Couldn't connect to API");
+          console.log(Error);
+        });
+    }
   }
 
   created() {
