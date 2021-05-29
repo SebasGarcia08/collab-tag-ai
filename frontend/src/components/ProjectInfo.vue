@@ -16,9 +16,12 @@
       </div>
     </div>
     <div class="w-full flex flex-row">
-      <a class="mx-auto border rounded bg-blue-500 hover:bg-blue-600 shadow-sm text-white font-semibold w-36 p-2">Upload Images</a>
-      <a class="mx-auto border rounded bg-blue-500 hover:bg-blue-600 shadow-sm text-white font-semibold w-36 p-2">Classify Images</a>
-      <a class="mx-auto border rounded bg-blue-500 hover:bg-blue-600 shadow-sm text-white font-semibold w-36 p-2">Inference</a>
+      <label for="upload-image" class="flex flex-col items-center mx-auto border rounded bg-blue-500 hover:bg-blue-600 shadow-sm text-white font-semibold w-36 p-2">
+        Upload Images
+        <input id="upload-image" type="file" class="hidden"/>
+      </label>
+      <a class="flex flex-col items-center mx-auto border rounded bg-blue-500 hover:bg-blue-600 shadow-sm text-white font-semibold w-36 p-2">Classify Images</a>
+      <a class="flex flex-col items-center mx-auto border rounded bg-blue-500 hover:bg-blue-600 shadow-sm text-white font-semibold w-36 p-2">Inference</a>
     </div>
     <!-- Collaborators -->
     <div class="mt-5 w-full border flex flex-row">
