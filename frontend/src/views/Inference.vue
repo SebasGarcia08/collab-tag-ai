@@ -1,6 +1,6 @@
 <template>
   <div class="container relative bg-white dark:bg-gray-800">
-    <SideBar :buttons="buttonsarr" class="absolute" />
+    <SideBar :buttons="buttonsarr" class="fixed" />
     <main class="ml-20"></main>
     <WebcamPanel />
   </div>
@@ -9,7 +9,7 @@
 <script lang="ts">
 import Vue from "vue";
 import SideBar from "../components/SideBar.vue";
-import WebcamPanel from "@/components/Webcam.vue";
+import WebcamPanel from "@/components/WebcamClassTest.vue";
 
 import Component from "vue-class-component";
 import { Item } from "../model/Item";

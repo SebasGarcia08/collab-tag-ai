@@ -16,12 +16,24 @@
       </div>
     </div>
     <div class="w-full flex flex-row">
-      <label for="upload-image" class="flex flex-col items-center mx-auto border rounded bg-blue-500 hover:bg-blue-600 shadow-sm text-white font-semibold w-36 p-2">
+      <!-- Upload images btt -->
+      <div class="flex items-center justify-center mx-auto border rounded bg-blue-500 hover:bg-blue-600 shadow-sm font-semibold w-40 p-2">
+        <label for="upload-image" class="text-white">
         Upload Images
         <input id="upload-image" type="file" class="hidden"/>
+        <i class="fas fa-upload pl-2"></i>
       </label>
-      <a class="flex flex-col items-center mx-auto border rounded bg-blue-500 hover:bg-blue-600 shadow-sm text-white font-semibold w-36 p-2">Classify Images</a>
-      <a class="flex flex-col items-center mx-auto border rounded bg-blue-500 hover:bg-blue-600 shadow-sm text-white font-semibold w-36 p-2">Inference</a>
+      </div>
+      <!-- Classify images btt -->
+      <div class="flex items-center justify-center mx-auto border rounded bg-blue-500 hover:bg-blue-600 shadow-sm w-40 p-2 text-white">
+        <a class="font-semibold">Classify Images</a>
+        <i class="fas fa-object-group pl-2"></i>
+      </div>
+      <!-- Inference btt -->
+      <div class="flex items-center justify-center mx-auto border rounded bg-blue-500 hover:bg-blue-600 shadow-sm w-40 p-2 text-white">
+        <a @click="openInference" class="font-semibold">Inference</a>
+        <i class="fas fa-chart-bar pl-2"></i>
+      </div>
     </div>
     <!-- Collaborators -->
     <div class="mt-5 w-full border flex flex-row">
@@ -57,6 +69,15 @@
         <label class="px-5 font-bold">
           Classes
         </label>
+        <!-- Add class field and btt -->
+        <input
+            type="text"
+            v-model="newClass"
+            name="newClass"
+            placeholder="Add class"
+            class="mx-5 block w-28 rounded border-2 border-solid border-gray-500"
+          />
+        <button @click="addClass" class="mx-5 border rounded bg-gray-300 hover:bg-gray-400 px-2">Add</button>
       </div>
       <div class="w-full">
         <div class="px-5 text-justify" v-for="(pjClass, idx) in classes" :key="idx">
@@ -65,6 +86,7 @@
           </p>
         </div>
       </div>
+      
     </div>
     <!-- Tasks -->
     <div class="w-full border flex flex-row">
@@ -80,6 +102,10 @@
           - Hire more collaborators
         </p>
       </div>
+    </div>
+    <div class="m-5 flex flex-row items-center border rounded bg-red-500 hover:bg-red-600 w-40 font-semibold text-white p-2">
+      <a>Delete project</a>
+      <i class="fas fa-trash-alt pl-4"></i>
     </div>
   </div>
 </template>
@@ -104,6 +130,19 @@ export default class ProjectInfo extends Vue {
 
   project = store.currentProject;
 
+  newClass = "";
+
   classes: Array<string> = ["Cats", "Dogs"];
+
+  addClass() {
+    if (this.newClass != "") {
+      this.classes.push(this.newClass);
+      this.newClass = "";
+    }
+  }
+
+  openInference() {
+    this.$router.push("/Inference");
+  }
 }
 </script>

@@ -92,8 +92,8 @@ export default class AddProject extends Vue {
       console.log(new_project);
     }
 
-    // this.project_name = "";
-    // this.description = "";
+    this.project_name = "";
+    this.description = "";
   }
 }
 </script>
