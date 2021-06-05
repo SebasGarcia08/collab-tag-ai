@@ -1,6 +1,6 @@
-import { reactive } from "vue";
+// import { reactive } from "vue";
 
-//Reactive state
-export default reactive({
-  projects: [],
-});
+// //Reactive state
+// export default reactive({
+//   projects: [],
+// });

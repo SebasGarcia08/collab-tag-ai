@@ -48,7 +48,7 @@ import AddProject from "../components/AddProject.vue";
 import Button from "../components/Button.vue";
 import firebase from "firebase/app";
 import store from "../model/Store";
-import state from "../model/CStore";
+// import state from "../model/CStore";
 // The @Component decorator indicates the class is a Vue component
 @Component({
   components: {
@@ -91,7 +91,7 @@ export default class Projects extends Vue {
   async fetchProjects() {
     const user = await firebase.auth().currentUser;
     console.log(user);
-    alert("FETCHED DATAAAAA FOK");
+    console.log("FETCHED DATAAAAA FOK");
 
     if (user != null) {
       await ProjectsAPI.loadProjects(user.uid)
@@ -109,28 +109,15 @@ export default class Projects extends Vue {
     }
   }
 
-  mounted() {
-    console.log("RenderTr");
+  created() {
+    this.fetchProjects();
+    this.projects = store.projects;
+
+    // Reload page after project deletion
     if (store.reload) {
       store.reload = false;
       this.$router.go(0);
     }
-    //
-    // this.fetchProjects();
-    // this.projects = store.projects;
-
-    console.log("projects on reload:" + this.projects);
-  }
-
-  updated() {
-    //this.$router.go(0);
-    // this.fetchProjects();
-    console.log("projects on update:" + this.projects);
-  }
-
-  created() {
-    this.fetchProjects();
-    this.projects = store.projects;
   }
 
   addProject(new_project: Project) {

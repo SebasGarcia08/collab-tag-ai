@@ -125,7 +125,7 @@ import { ProjectsAPI } from "../repositories/ProjectsAPI";
 import { ProjectMember } from "../model/ProjectMember";
 import { User } from "../model/User";
 import { ImageClass } from "../model/ImageClass";
-import state from "../model/CStore";
+// import state from "../model/CStore";
 
 // The @Component decorator indicates the class is a Vue component
 @Component({
@@ -214,13 +214,13 @@ export default class ProjectInfo extends Vue {
   deleteProject(): void {
     const sure = confirm("Are you sure?");
     if (sure) {
-      console.log(state.projects);
+      // console.log(state.projects);
       ProjectsAPI.deleteProject(store.currentProject.idProject);
       store.reload = true;
-      const idx = state.projects.indexOf(state.currentProject);
+      // const idx = state.projects.indexOf(state.currentProject);
       //state.projects.splice(idx, 1);
-      console.log("Going to DELETE INDEX" + idx);
-      console.log(state.projects);
+      // console.log("Going to DELETE INDEX" + idx);
+      // console.log(state.projects);
       alert("Project deleted successfully");
       this.$router.push("/Projects");
     } else {
