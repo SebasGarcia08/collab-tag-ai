@@ -40,7 +40,7 @@
 import Vue from "vue";
 import Component from "vue-class-component";
 import { Project } from "../model/Project";
-import { ProjectsLoader } from "@/repositories/ProjectsLoader";
+import { ProjectsAPI } from "@/repositories/ProjectsAPI";
 import firebase from "firebase/app";
 
 // The @Component decorator indicates the class is a Vue component
@@ -52,8 +52,6 @@ export default class AddProject extends Vue {
 
   project_name = "";
   description = "";
-
-  projectsLoader: ProjectsLoader = new ProjectsLoader();
 
   async onSubmit(e) {
     e.preventDefault();
@@ -81,7 +79,7 @@ export default class AddProject extends Vue {
         user.uid
       );
 
-      this.projectsLoader.createProject(new_project).then((response) => {
+      ProjectsAPI.createProject(new_project).then((response) => {
         //console.log(response);
         //new_project = response;
         new_project.idProject = response.data.idProject;

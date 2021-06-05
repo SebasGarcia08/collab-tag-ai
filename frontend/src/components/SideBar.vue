@@ -36,7 +36,7 @@
 import Vue from "vue";
 import SideBarButton from "./SideBarButton.vue";
 import Component from "vue-class-component";
-import { Prop } from 'vue-property-decorator';
+import { Prop } from "vue-property-decorator";
 import { Item } from "../model/Item";
 import firebase from "firebase/app";
 
@@ -49,10 +49,13 @@ import firebase from "firebase/app";
 export default class SideBar extends Vue {
   // Initial data can be declared as instance properties
 
-  @Prop() buttons!: Array<Item>
+  @Prop() buttons!: Array<Item>;
 
-  logout () {
-    firebase.auth().signOut().then(() => this.$router.replace('Login'));
+  logout() {
+    firebase
+      .auth()
+      .signOut()
+      .then(() => this.$router.replace("Login"));
   }
 }
 </script>

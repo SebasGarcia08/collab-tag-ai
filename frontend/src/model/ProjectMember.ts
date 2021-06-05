@@ -1,11 +1,11 @@
 export class ProjectMember {
-    idUser: string;
-    idProject: number;
-    date: string;
+  idUser: string;
+  idProject: number;
+  date: string;
 
-    constructor(idUser: string, idProject: number, date: string) {
-        this.idUser = idUser;
-        this.idProject = idProject;
-        this.date = date
-    }
+  constructor(idUser: string, idProject: number, date: string) {
+    this.idUser = idUser;
+    this.idProject = idProject;
+    this.date = date;
+  }
 }

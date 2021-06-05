@@ -1,4 +1,4 @@
-import { Classes } from "./Classes";
+import { ImageClass } from "./ImageClass";
 import { Models } from "./Models";
 
 export class Project {
@@ -7,7 +7,7 @@ export class Project {
   public date: string;
   public description: string;
   public idUser: string;
-  public classes: Array<Classes>;
+  public classes: Array<ImageClass>;
   public models: Array<Models>;
 
   constructor(name: string, date: string, description: string, idUser: string) {
@@ -20,9 +20,7 @@ export class Project {
     this.models = [];
   }
 
-
-  getIdProject(){
+  getIdProject() {
     return this.idProject;
   }
-
 }

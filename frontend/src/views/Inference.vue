@@ -9,7 +9,7 @@
 <script lang="ts">
 import Vue from "vue";
 import SideBar from "../components/SideBar.vue";
-import WebcamPanel from "@/components/WebcamClassTest.vue";
+import WebcamPanel from "@/components/Webcam.vue";
 
 import Component from "vue-class-component";
 import { Item } from "../model/Item";
