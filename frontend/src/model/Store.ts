@@ -5,7 +5,7 @@ const store = {};
 
 export default Vue.observable({
     currentUserId: "",
-    currentProject: Project,
+    currentProject: new Project("", "", "", ""),
 });
 
 // export class Store {

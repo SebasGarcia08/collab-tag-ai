@@ -63,7 +63,7 @@ import { LayersModel, Sequential, Tensor1D, Tensor2D } from "@tensorflow/tfjs";
 
 @Component
 export default class WebcamPanel extends Vue {
-  classes = ["Rock", "Paper", "Scissors", "Snake"];
+  classes = ["Rock", "Paper", "Scissors"];
   classCounter = new Array(this.classes.length).fill(0);
   
   private model: LayersModel;

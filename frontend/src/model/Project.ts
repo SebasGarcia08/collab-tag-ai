@@ -19,4 +19,10 @@ export class Project {
     this.classes = [];
     this.models = [];
   }
+
+
+  getIdProject(){
+    return this.idProject;
+  }
+
 }

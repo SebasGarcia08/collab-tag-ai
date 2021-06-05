@@ -43,12 +43,19 @@
         </label>
       </div>
       <div class="w-full">
+        <div class="px-5" v-for="(member, idx) in members" :key="idx">
+          <p>
+          - {{ member }}<br>
+          </p>
+        </div>
+      </div>
+      <!-- <div class="w-full">
         <p class="px-5">
           - Juan Fernando Angulo Salvador<br>
           - Christian Gallo<br>
           - Sebastián García Acosta
         </p>
-      </div>
+      </div> -->
     </div>
     <!-- Description -->
     <div class="w-full border flex flex-row">
@@ -115,6 +122,11 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import { Prop } from 'vue-property-decorator';
 import store from "../model/Store";
+import firebase from "firebase/app";
+import { ProjectLoaderJS } from "../repositories/ProjectsLoaderJS";
+import { ProjectsLoader } from "../repositories/ProjectsLoader";
+import { ProjectMember } from "../model/ProjectMember";
+import { User } from "../model/User";
 
 // The @Component decorator indicates the class is a Vue component
 @Component({
@@ -134,6 +146,12 @@ export default class ProjectInfo extends Vue {
 
   classes: Array<string> = ["Cats", "Dogs"];
 
+  projectsLoader: ProjectLoaderJS = new ProjectLoaderJS();
+
+  projectsLoader2: ProjectsLoader = new ProjectsLoader();
+
+  members: Array<ProjectMember> = [];
+
   addClass() {
     if (this.newClass != "") {
       this.classes.push(this.newClass);
@@ -143,6 +161,50 @@ export default class ProjectInfo extends Vue {
 
   openInference() {
     this.$router.push("/Inference");
+  }
+
+  users: Array<User> = [];
+
+  async fetchMembers() {
+    const user = await firebase.auth().currentUser;
+    console.log(user);
+
+    if (user != null) {
+      this.users = await this.projectsLoader
+                             .loadMembers(
+                               store.currentProject.idProject
+                               );
+        // .then((response) => {
+        //   console.log(response);
+        //   this.members = response.data;
+        // })
+        // .catch((Error) => {
+        //   alert("Couldn't connect to API");
+        //   console.log(Error);
+        // });
+    }
+  }
+
+  // async fetchMembers2() {
+  //   const user = await firebase.auth().currentUser;
+  //   console.log(user);
+
+  //   if (user != null) {
+  //     await this.projectsLoader2
+  //       .loadMembers(store.currentProject.idProject)
+  //       .then((response) => {
+  //         //console.log(response);
+  //         this.members = response.data;
+  //       })
+  //       .catch((Error) => {
+  //         alert("Couldn't connect to API");
+  //         console.log(Error);
+  //       });
+  //   }
+  // }
+  
+  created() {
+    this.fetchMembers();
   }
 }
 </script>

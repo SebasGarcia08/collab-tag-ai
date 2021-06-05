@@ -39,12 +39,13 @@ export default class ProjectPreview extends Vue {
   // Initial data can be declared as instance properties
 
   @Prop({default: 'Project name'}) name!: string;
-  @Prop() project!: typeof Project;
+  @Prop() project!: Project;
   @Prop() projectId!: number;
   @Prop({default: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'}) description!: string;
 
   setCurrProject() {
     store.currentProject = this.project;
+    
     console.log(store.currentProject);
 
     this.$router.push("/ProjectFull");
