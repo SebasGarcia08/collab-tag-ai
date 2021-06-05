@@ -1,11 +1,15 @@
-import Vue from 'vue';
+import Vue from "vue";
 import { Project } from "../model/Project";
-
 const store = {};
 
 export default Vue.observable({
-    currentUserId: "",
-    currentProject: Project,
+  // CURRENT VARIABLES
+  currentUserId: "",
+  currentProject: new Project("", "", "", ""),
+
+  // GLOBAL STATE
+  projects: new Array<Project>(),
+  reload: false,
 });
 
 // export class Store {

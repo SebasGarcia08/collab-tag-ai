@@ -2,7 +2,7 @@
   <div class="container relative">
     <SideBar :buttons="buttonsarr" class="fixed" />
     <main class="ml-20">
-      <ProjectInfo class=""/>
+      <ProjectInfo class="" />
     </main>
   </div>
 </template>
@@ -18,8 +18,8 @@ import { Project } from "../model/Project";
 // The @Component decorator indicates the class is a Vue component
 @Component({
   components: {
-      SideBar,
-      ProjectInfo
+    SideBar,
+    ProjectInfo,
   },
 })
 export default class ProjectFull extends Vue {
@@ -43,23 +43,23 @@ export default class ProjectFull extends Vue {
     },
   ];
 
-//   projectsLoader: ProjectsLoader = new ProjectsLoader();
+  //   projectsLoader: ProjectsLoader = new ProjectsLoader();
 
-//   async fetchProjects() {
-//     await this.projectsLoader
-//       .loadProjects(1)
-//       .then((response) => {
-//         console.log(response);
-//         this.projects = response.data;
-//       })
-//       .catch((Error) => {
-//         alert("Couldn't connect to API");
-//         console.log(Error);
-//       });
-//   }
+  //   async fetchProjects() {
+  //     await this.projectsLoader
+  //       .loadProjects(1)
+  //       .then((response) => {
+  //         console.log(response);
+  //         this.projects = response.data;
+  //       })
+  //       .catch((Error) => {
+  //         alert("Couldn't connect to API");
+  //         console.log(Error);
+  //       });
+  //   }
 
-//   created() {
-//     this.fetchProjects();
-//   }
+  //   created() {
+  //     this.fetchProjects();
+  //   }
 }
 </script>

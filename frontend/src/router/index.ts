@@ -8,7 +8,6 @@ import Register from "../views/Register.vue";
 import ProjectFull from "../views/ProjectFull.vue";
 import firebase from "firebase/app";
 
-
 Vue.use(VueRouter);
 
 const routes: Array<RouteConfig> = [
@@ -30,7 +29,7 @@ const routes: Array<RouteConfig> = [
     component: Projects,
     meta: {
       authenticated: true,
-    }
+    },
   },
   {
     path: "/Inference",
@@ -38,7 +37,7 @@ const routes: Array<RouteConfig> = [
     component: Inference,
     meta: {
       authenticated: true,
-    }
+    },
   },
   {
     path: "/Register",
@@ -46,19 +45,19 @@ const routes: Array<RouteConfig> = [
     component: Register,
   },
   {
-    path:"/ProjectFull",
+    path: "/ProjectFull",
     name: "ProjectFull",
     component: ProjectFull,
     props: true,
     meta: {
       authenticated: true,
-    }
+    },
   },
   {
-    path:"/test",
+    path: "/test",
     name: "Test",
     component: Test,
-  }
+  },
 ];
 
 const router = new VueRouter({
@@ -72,13 +71,13 @@ export default router;
 router.beforeEach((to, from, next) => {
   const user = firebase.auth().currentUser;
   // console.log(user);
-  const authorization = to.matched.some(record => record.meta.authenticated);
+  const authorization = to.matched.some((record) => record.meta.authenticated);
 
   if (authorization && !user) {
-    next('Login');
+    next("Login");
   } else if (!authorization && user) {
-    next('Projects');
+    next("Projects");
   } else {
     next();
   }
-})
+});

@@ -84,10 +84,10 @@ export default class RegisterBox extends Vue {
       .then((userCredential) => {
         // Signed in
         var user = userCredential.user;
-        this.$router.replace('Projects');
+        this.$router.replace("Projects");
         // ...
         (error) => console.error(error);
-      })
+      });
   }
 }
 </script>
