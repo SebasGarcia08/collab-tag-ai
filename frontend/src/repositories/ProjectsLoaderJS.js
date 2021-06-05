@@ -29,18 +29,16 @@ export class ProjectLoaderJS {
 
     let members = await this.getMembers(idProject);
 
-    console.log("response members: " + members);
-
     let users = [];
     for (var i = 0; i < members.length; i++) {
       let user = null;
-      console.log("idUser: " + members[i].idUser);
+      //   console.log("idUser: " + members[i].idUser);
       await axios
         .get(this.HOST + "/api/users/" + members[i].idUser)
         .then((response) => {
           if (response.status < 400) {
             user = response.data;
-            console.log(user);
+            // console.log(user);
           } else {
             console.log("USERS ERROR");
           }

@@ -79,6 +79,19 @@ export class ProjectsAPI {
     });
   }
 
+  public static uploadImage(
+    img: any,
+    name: any,
+    idProject: number,
+    idUser: string
+  ): Promise<any> {
+    const fd = new FormData();
+    fd.append("image", img, name);
+    fd.append("idProject", idProject.toString());
+    fd.append("idUser", idUser.toString());
+    return axios.post(`${ProjectsAPI.HOST}/api/data/`, fd);
+  }
+
   // return axios.get('https://localhost:5001/api/project/1', {
   //         headers: {
   //           'Authorization': `token ${access_token}`

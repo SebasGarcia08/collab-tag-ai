@@ -19,10 +19,20 @@
         class="flex items-center justify-center mx-auto border rounded bg-blue-500 hover:bg-blue-600 shadow-sm font-semibold w-40 p-2"
       >
         <label for="upload-image" class="text-white">
-          Upload Images
-          <input id="upload-image" type="file" class="hidden" />
+          Select Images
+          <input
+            id="upload-image"
+            type="file"
+            class="hidden"
+            @click="onFilesSelected"
+          />
           <i class="fas fa-upload pl-2"></i>
         </label>
+      </div>
+      <div
+        class="flex items-center justify-center mx-auto border rounded bg-blue-500 hover:bg-blue-600 shadow-sm w-40 p-2 text-white"
+      >
+        <a @click="onUploadImage" class="font-semibold">Upload Images</a>
       </div>
       <!-- Classify images btt -->
       <div
@@ -147,6 +157,8 @@ export default class ProjectInfo extends Vue {
 
   projectsLoaderJS: ProjectLoaderJS = new ProjectLoaderJS();
 
+  files2Upload: any = [];
+
   members: any = [];
 
   classes: Array<ImageClass> = [];
@@ -183,7 +195,7 @@ export default class ProjectInfo extends Vue {
 
   async fetchMembers(): Promise<void> {
     const user = await firebase.auth().currentUser;
-    console.log(user);
+    // console.log(user);
 
     if (user != null) {
       this.members = await this.projectsLoaderJS.loadMembers(
@@ -199,7 +211,7 @@ export default class ProjectInfo extends Vue {
     if (user != null) {
       await ProjectsAPI.loadClasses(store.currentProject.idProject)
         .then((response) => {
-          console.log(response);
+          // console.log(response);
           this.classes = response.data;
         })
         .catch((Error) => {
@@ -211,12 +223,12 @@ export default class ProjectInfo extends Vue {
     store.currentProject.classes = this.classes;
   }
 
-  deleteProject(): void {
+  public deleteProject(): void {
     const sure = confirm("Are you sure?");
     if (sure) {
-      // console.log(state.projects);
       ProjectsAPI.deleteProject(store.currentProject.idProject);
       store.reload = true;
+      // console.log(state.projects);
       // const idx = state.projects.indexOf(state.currentProject);
       //state.projects.splice(idx, 1);
       // console.log("Going to DELETE INDEX" + idx);
@@ -225,6 +237,33 @@ export default class ProjectInfo extends Vue {
       this.$router.push("/Projects");
     } else {
       alert("Operation cancelled");
+    }
+  }
+
+  async onFilesSelected(event) {
+    console.log(event);
+    this.files2Upload = event.target.files;
+  }
+
+  public onUploadImage() {
+    console.log("UPLOADING" + this.files2Upload);
+    for (let i = 0; this.files2Upload.length; i++) {
+      const img = this.files2Upload[i];
+      const name = this.files2Upload[i].name;
+      const idProject = store.currentProject.idProject;
+      const idUser = store.currentUserId;
+      ProjectsAPI.uploadImage(img, name, idProject, idUser)
+        .then((res) => {
+          if (res.status < 400) {
+            alert("WE ARE FUCKING PROSS");
+          } else {
+            alert("WE FAILED, FUCKING NOOBS");
+          }
+          this.files2Upload = [];
+        })
+        .catch((er) => {
+          alert("WE ARE FUCKING NOOBS");
+        });
     }
   }
 

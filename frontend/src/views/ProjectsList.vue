@@ -84,14 +84,14 @@ export default class Projects extends Vue {
   showAddProject = false;
 
   toggleAddProject() {
-    console.log(this.$root.$data);
+    // console.log(this.$root.$data);
     this.showAddProject = !this.showAddProject;
   }
 
   async fetchProjects() {
     const user = await firebase.auth().currentUser;
-    console.log(user);
-    console.log("FETCHED DATAAAAA FOK");
+    // console.log(user);
+    // console.log("FETCHED DATAAAAA FOK");
 
     if (user != null) {
       await ProjectsAPI.loadProjects(user.uid)
