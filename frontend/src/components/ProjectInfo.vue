@@ -310,22 +310,25 @@ export default class ProjectInfo extends Vue {
 
     const idProject = this.project.idProject;
     const idUser = store.currentUserId;
-    const img = await Utils.readAsDataUrl(file);
+    const img: Blob = await Utils.convert2Base64Array(file);
+    const date = new Date().toLocaleString();
     console.log(img);
 
     console.log(file);
-    ProjectsAPI.uploadImage(img, idProject, idUser, (event: ProgressEvent) => {
-      this.progressInfos[idx].percentage = Math.round(
-        (100 * event.loaded) / event.total
-      );
-    })
+    ProjectsAPI.uploadImage(
+      img,
+      idProject,
+      "dgNx8flhwAb2K1l8zMp9VYE1elp1",
+      date,
+      (event: ProgressEvent) => {
+        this.progressInfos[idx].percentage = Math.round(
+          (100 * event.loaded) / event.total
+        );
+      }
+    )
       .then((res) => {
         console.log(res);
-        if (res.status == 200) {
-          alert("WE ARE FUCKING PROSS");
-        } else {
-          alert("WE FAILED, FUCKING NOOBS: " + res.status);
-        }
+        alert("WE ARE FUCKING PROSS");
         this.selectedFiles = [];
       })
       .catch((err) => {
@@ -345,8 +348,9 @@ export default class ProjectInfo extends Vue {
   public async fetchImages(): Promise<void> {
     await ProjectsAPI.getImages(store.currentProject.idProject)
       .then((res) => {
-        console.log("IMAGES: " + res.data);
+        console.log("IMAGES: ");
         this.fileInfos = res.data;
+        console.log(res.data);
       })
       .catch((err) => {
         console.log(err);

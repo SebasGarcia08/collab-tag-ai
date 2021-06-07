@@ -85,28 +85,24 @@ export class ProjectsAPI {
   }
 
   public static uploadImage(
-    img: any,
+    img: Blob,
     idProject: number,
     idUser: string,
+    date: string,
     onUploadProgress: (event: ProgressEvent) => void
   ): Promise<AxiosResponse> {
-    return axios.post(
-      `${ProjectsAPI.HOST}/api/data/`,
-      {
-        idData: 1,
-        image: img,
-        idProject: idProject,
-        idUser: idUser,
-        date: new Date().toLocaleString(),
-        idClass: 0,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        onUploadProgress,
-      }
-    );
+    const req = {
+      image: img,
+      date: date,
+      idProject: idProject,
+      idUser: idUser,
+    };
+
+    console.log(req);
+
+    return axios.post(`${ProjectsAPI.HOST}/api/data/`, req, {
+      onUploadProgress,
+    });
   }
 
   public static getImages(idProject: number): Promise<AxiosResponse> {

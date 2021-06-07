@@ -20,7 +20,7 @@ export default class Utils {
     return img;
   }
 
-  public static readAsDataUrl(file: File): Promise<any> {
+  public static convert2Base64Array(file: File): Promise<Blob> {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
 
