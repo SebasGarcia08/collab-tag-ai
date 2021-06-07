@@ -160,9 +160,9 @@
           :key="index"
         >
           <p>
-            <a :href="file.url">{{ file.name }}</a>
+            {{ file.image }}
           </p>
-          <img :src="file.url" :alt="file.name" height="80px" />
+          <img :src="file.image" :alt="file.name" height="80px" />
         </li>
       </ul>
     </div>
@@ -214,7 +214,7 @@ export default class ProjectInfo extends Vue {
 
   public selectedFiles: Array<File> = [];
 
-  public fileInfos = [];
+  public fileInfos: any = [];
 
   public message = "";
 
@@ -309,10 +309,11 @@ export default class ProjectInfo extends Vue {
     this.progressInfos[idx] = { percentage: 0, fileName: file.name };
 
     const idUser = store.currentUserId;
+    console.log("Curr userId: " + store.currentUserId);
     const idProject = this.project.idProject;
     const img: Blob = await Utils.convert2Base64Array(file);
     const date = new Date().toLocaleString();
-    console.log(img);
+    console.log("Img when upload: " + img);
 
     console.log(file);
     ProjectsAPI.uploadImage(
@@ -350,9 +351,14 @@ export default class ProjectInfo extends Vue {
       .then((res) => {
         console.log("IMAGES: ");
         this.fileInfos = res.data;
-        for (let i = 0; i < res.data.length; i++) {
-          console.log(Utils.base64ToUint8Array(res.data[i].image));
+        for (var i = 0; i < this.fileInfos.length; i++) {
+          this.fileInfos[i].image = window.atob(this.fileInfos[i].image);
         }
+        console.log("FILES INFOS");
+        console.log(this.fileInfos);
+        // for (let i = 0; i < res.data.length; i++) {
+        //   console.log(Utils.base64ToUint8Array(res.data[i].image));
+        // }
         console.log(res.data);
       })
       .catch((err) => {
@@ -362,6 +368,7 @@ export default class ProjectInfo extends Vue {
 
   mounted(): void {
     this.fetchImages();
+    ProjectsAPI.checkUserId();
     console.log("FUCKING  MOUNTEEEEEEEEEEEEEEEEEED");
   }
 

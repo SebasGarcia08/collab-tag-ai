@@ -111,7 +111,7 @@ export class ProjectsAPI {
     return axios.get(`${ProjectsAPI.HOST}/api/data/list/all/${idProject}`);
   }
 
-  public async checkUserId(): Promise<boolean> {
+  public static async checkUserId(): Promise<boolean> {
     if (!store.currentUserId) {
       const user = await firebase.auth().currentUser;
       if (user) {
