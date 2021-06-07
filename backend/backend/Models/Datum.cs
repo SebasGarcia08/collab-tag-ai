@@ -12,7 +12,7 @@ namespace backend.Models
         public DateTime Date { get; set; }
         public long IdProject { get; set; }
         public string IdUser { get; set; }
-        public long IdClass { get; set; }
+        public long? IdClass { get; set; }
 
         public virtual Class IdClassNavigation { get; set; }
         public virtual Project IdProjectNavigation { get; set; }
