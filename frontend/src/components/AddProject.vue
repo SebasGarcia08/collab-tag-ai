@@ -40,7 +40,7 @@
 import Vue from "vue";
 import Component from "vue-class-component";
 import { Project } from "../model/Project";
-import { ProjectsAPI } from "@/repositories/ProjectsAPI";
+import { ProjectsAPI } from "@/services/ProjectsAPI";
 import firebase from "firebase/app";
 
 // The @Component decorator indicates the class is a Vue component

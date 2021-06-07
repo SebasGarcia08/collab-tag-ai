@@ -43,7 +43,7 @@ import ProjectPreview from "../components/ProjectPreview.vue";
 import Component from "vue-class-component";
 import { Item } from "../model/Item";
 import { Project } from "../model/Project";
-import { ProjectsAPI } from "../repositories/ProjectsAPI";
+import { ProjectsAPI } from "../services/ProjectsAPI";
 import AddProject from "../components/AddProject.vue";
 import Button from "../components/Button.vue";
 import firebase from "firebase/app";

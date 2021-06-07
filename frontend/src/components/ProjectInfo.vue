@@ -26,7 +26,7 @@
             accept="image/*"
             multiple
             class="hidden"
-            @click="onFilesSelected"
+            @change="onFilesSelected"
           />
           <i class="fas fa-upload pl-2"></i>
         </label>
@@ -132,11 +132,9 @@ import Component from "vue-class-component";
 import { Prop } from "vue-property-decorator";
 import store from "../model/Store";
 import firebase from "firebase/app";
-import { ProjectLoaderJS } from "../repositories/ProjectsLoaderJS";
-import { ProjectsAPI } from "../repositories/ProjectsAPI";
-import { ProjectMember } from "../model/ProjectMember";
-import { User } from "../model/User";
+import { ProjectsAPI } from "../services/ProjectsAPI";
 import { ImageClass } from "../model/ImageClass";
+import { ProjectMember } from "../model/ProjectMember";
 // import state from "../model/CStore";
 
 // The @Component decorator indicates the class is a Vue component
@@ -157,11 +155,9 @@ export default class ProjectInfo extends Vue {
 
   newClass = "";
 
-  projectsLoaderJS: ProjectLoaderJS = new ProjectLoaderJS();
-
   files2Upload: any = [];
 
-  members: any = [];
+  members: Array<ProjectMember> = [];
 
   classes: Array<ImageClass> = [];
 
@@ -196,11 +192,11 @@ export default class ProjectInfo extends Vue {
   }
 
   async fetchMembers(): Promise<void> {
-    const user = await firebase.auth().currentUser;
-    // console.log(user);
+    const user = firebase.auth().currentUser;
+    console.log(user);
 
     if (user != null) {
-      this.members = await this.projectsLoaderJS.loadMembers(
+      this.members = await ProjectsAPI.loadMembers(
         store.currentProject.idProject
       );
     }
@@ -242,12 +238,12 @@ export default class ProjectInfo extends Vue {
     }
   }
 
-  async onFilesSelected(event) {
+  async onFilesSelected(event): Promise<void> {
     console.log(event);
     this.files2Upload = event.target.files;
   }
 
-  public onUploadImage() {
+  public onUploadImage(): void {
     console.log("UPLOADING" + this.files2Upload);
     for (let i = 0; this.files2Upload.length; i++) {
       const img = this.files2Upload[i];
@@ -263,8 +259,8 @@ export default class ProjectInfo extends Vue {
           }
           this.files2Upload = [];
         })
-        .catch((er) => {
-          alert("WE ARE FUCKING NOOBS");
+        .catch((err) => {
+          alert("WE ARE FUCKING NOOBS" + err);
         });
     }
   }

@@ -1,3 +1,4 @@
+import { ProjectMember } from "@/model/ProjectMember";
 import axios from "axios";
 import Vue from "vue";
 import { Project } from "../model/Project";
@@ -11,12 +12,6 @@ export class ProjectsAPI {
     return axios.get(ProjectsAPI.HOST + "/api/project/" + id);
   }
 
-  public static loadMembers(id: number) {
-    // Load members of a project
-
-    return axios.get(ProjectsAPI.HOST + "/api/members/" + id);
-  }
-
   public static loadClasses(id: number) {
     // Load classes of a project
 
@@ -28,38 +23,6 @@ export class ProjectsAPI {
 
     return axios.delete(ProjectsAPI.HOST + "/api/projects/" + id);
   }
-
-  // public loadMembers(id: number) {
-
-  //     // Load members of a project
-
-  //     axios.get(this.HOST+'/api/members/'+id).then(response => {
-  //         // return response.data;
-  //         console.log("memberssss: " + response);
-  //         this.members = response.data;
-  //     });
-
-  //     console.log("response members: "+this.members);
-
-  //     // Load the users given the members of the project
-
-  //     this.members.forEach(member => {
-  //         const u = axios.get(this.HOST+'api/users/'+member.idUser).then(response => {
-  //             // return response.data;
-  //             const new_user = response.data;
-  //             console.log("new user: " + new_user);
-  //             this.users.push(new_user);
-  //             // return new_user;
-  //         })
-
-  //         // this.users.push(u);
-
-  //     });
-
-  //     console.log("Users:" + this.users);
-
-  //     return this.users;
-  // }
 
   public static createProject(project: Project) {
     return axios.post(ProjectsAPI.HOST + "/api/projects", {
@@ -92,9 +55,43 @@ export class ProjectsAPI {
     return axios.post(`${ProjectsAPI.HOST}/api/data/`, fd);
   }
 
-  // return axios.get('https://localhost:5001/api/project/1', {
-  //         headers: {
-  //           'Authorization': `token ${access_token}`
-  //         }
-  //     });
+  private static async getMembers(idProject: number): Promise<ProjectMember[]> {
+    let members: Array<ProjectMember> = [];
+    await axios
+      .get(`${ProjectsAPI.HOST}/api/members/${idProject}`)
+      .then((response) => {
+        members = response.data;
+      })
+      .catch((err) => {
+        alert("Couldn't connect to API");
+        console.log(err);
+      });
+    return members;
+  }
+
+  public static async loadMembers(idProject: number): Promise<ProjectMember[]> {
+    const users: Array<ProjectMember> = [];
+    const members: Array<ProjectMember> = await ProjectsAPI.getMembers(
+      idProject
+    );
+
+    for (let i = 0; i < members.length; i++) {
+      //   console.log("idUser: " + members[i].idUser);
+      await axios
+        .get(this.HOST + "/api/users/" + members[i].idUser)
+        .then((response) => {
+          if (response.status < 400) {
+            const user: ProjectMember = response.data;
+            users.push(user);
+            // console.log(user);
+          } else {
+            console.log("USERS ERROR");
+          }
+        });
+    }
+
+    console.log("Users:" + users);
+
+    return users;
+  }
 }
