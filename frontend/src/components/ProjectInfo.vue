@@ -23,6 +23,8 @@
           <input
             id="upload-image"
             type="file"
+            accept="image/*"
+            multiple
             class="hidden"
             @click="onFilesSelected"
           />
@@ -227,7 +229,7 @@ export default class ProjectInfo extends Vue {
     const sure = confirm("Are you sure?");
     if (sure) {
       ProjectsAPI.deleteProject(store.currentProject.idProject);
-      store.reload = true;
+      store.reload = false;
       // console.log(state.projects);
       // const idx = state.projects.indexOf(state.currentProject);
       //state.projects.splice(idx, 1);
