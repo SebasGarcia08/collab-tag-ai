@@ -308,8 +308,8 @@ export default class ProjectInfo extends Vue {
     console.log(file);
     this.progressInfos[idx] = { percentage: 0, fileName: file.name };
 
-    const idProject = this.project.idProject;
     const idUser = store.currentUserId;
+    const idProject = this.project.idProject;
     const img: Blob = await Utils.convert2Base64Array(file);
     const date = new Date().toLocaleString();
     console.log(img);
@@ -318,7 +318,7 @@ export default class ProjectInfo extends Vue {
     ProjectsAPI.uploadImage(
       img,
       idProject,
-      "dgNx8flhwAb2K1l8zMp9VYE1elp1",
+      idUser,
       date,
       (event: ProgressEvent) => {
         this.progressInfos[idx].percentage = Math.round(
@@ -346,10 +346,13 @@ export default class ProjectInfo extends Vue {
   }
 
   public async fetchImages(): Promise<void> {
-    await ProjectsAPI.getImages(store.currentProject.idProject)
+    await ProjectsAPI.getAllImages(store.currentProject.idProject)
       .then((res) => {
         console.log("IMAGES: ");
         this.fileInfos = res.data;
+        for (let i = 0; i < res.data.length; i++) {
+          console.log(Utils.base64ToUint8Array(res.data[i].image));
+        }
         console.log(res.data);
       })
       .catch((err) => {
@@ -359,6 +362,7 @@ export default class ProjectInfo extends Vue {
 
   mounted(): void {
     this.fetchImages();
+    console.log("FUCKING  MOUNTEEEEEEEEEEEEEEEEEED");
   }
 
   created(): void {

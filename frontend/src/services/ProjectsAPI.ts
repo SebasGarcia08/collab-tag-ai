@@ -1,6 +1,8 @@
 import { ProjectMember } from "@/model/ProjectMember";
 import axios, { AxiosResponse } from "axios";
 import { Project } from "../model/Project";
+import store from "../model/Store";
+import firebase from "firebase/app";
 
 export class ProjectsAPI {
   public static readonly HOST = "https://localhost:5001";
@@ -105,7 +107,20 @@ export class ProjectsAPI {
     });
   }
 
-  public static getImages(idProject: number): Promise<AxiosResponse> {
+  public static getAllImages(idProject: number): Promise<AxiosResponse> {
     return axios.get(`${ProjectsAPI.HOST}/api/data/list/all/${idProject}`);
+  }
+
+  public async checkUserId(): Promise<boolean> {
+    if (!store.currentUserId) {
+      const user = await firebase.auth().currentUser;
+      if (user) {
+        store.currentUserId = user.uid;
+        return true;
+      } else {
+        return false;
+      }
+    }
+    return true;
   }
 }

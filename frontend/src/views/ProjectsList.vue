@@ -117,6 +117,7 @@ export default class Projects extends Vue {
   mounted(): void {
     this.fetchProjects();
     this.projects = store.projects;
+    console.log("MOUNTEEEEED");
   }
 
   addProject(new_project: Project): void {
