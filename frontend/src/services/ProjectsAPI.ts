@@ -1,30 +1,29 @@
 import { ProjectMember } from "@/model/ProjectMember";
-import axios from "axios";
-import Vue from "vue";
+import axios, { AxiosResponse } from "axios";
 import { Project } from "../model/Project";
 
 export class ProjectsAPI {
   public static readonly HOST = "https://localhost:5001";
 
-  public static loadProjects(id: string) {
+  public static loadProjects(id: string): Promise<AxiosResponse> {
     // const access_token = token;
 
     return axios.get(ProjectsAPI.HOST + "/api/project/" + id);
   }
 
-  public static loadClasses(id: number) {
+  public static loadClasses(id: number): Promise<AxiosResponse> {
     // Load classes of a project
 
     return axios.get(ProjectsAPI.HOST + "/api/classes/" + id);
   }
 
-  public static deleteProject(id: number) {
+  public static deleteProject(id: number): Promise<AxiosResponse> {
     // Delete project
 
     return axios.delete(ProjectsAPI.HOST + "/api/projects/" + id);
   }
 
-  public static createProject(project: Project) {
+  public static createProject(project: Project): Promise<AxiosResponse> {
     return axios.post(ProjectsAPI.HOST + "/api/projects", {
       name: project.name,
       date: project.date,
@@ -35,24 +34,14 @@ export class ProjectsAPI {
     });
   }
 
-  public static createClass(className: string, projectId: number) {
+  public static createClass(
+    className: string,
+    projectId: number
+  ): Promise<AxiosResponse> {
     return axios.post(ProjectsAPI.HOST + "/api/classes", {
       name: className,
       idProject: projectId,
     });
-  }
-
-  public static uploadImage(
-    img: any,
-    name: any,
-    idProject: number,
-    idUser: string
-  ): Promise<any> {
-    const fd = new FormData();
-    fd.append("image", img, name);
-    fd.append("idProject", idProject.toString());
-    fd.append("idUser", idUser.toString());
-    return axios.post(`${ProjectsAPI.HOST}/api/data/`, fd);
   }
 
   private static async getMembers(idProject: number): Promise<ProjectMember[]> {
@@ -93,5 +82,34 @@ export class ProjectsAPI {
     console.log("Users:" + users);
 
     return users;
+  }
+
+  public static uploadImage(
+    img: any,
+    idProject: number,
+    idUser: string,
+    onUploadProgress: (event: ProgressEvent) => void
+  ): Promise<AxiosResponse> {
+    return axios.post(
+      `${ProjectsAPI.HOST}/api/data/`,
+      {
+        idData: 1,
+        image: img,
+        idProject: idProject,
+        idUser: idUser,
+        date: new Date().toLocaleString(),
+        idClass: 0,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        onUploadProgress,
+      }
+    );
+  }
+
+  public static getImages(idProject: number): Promise<AxiosResponse> {
+    return axios.get(`${ProjectsAPI.HOST}/api/data/${idProject}`);
   }
 }

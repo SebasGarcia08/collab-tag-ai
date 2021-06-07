@@ -109,18 +109,17 @@ export default class Projects extends Vue {
     }
   }
 
-  created() {
+  creatd(): void {
     this.fetchProjects();
     this.projects = store.projects;
-
-    // Reload page after project deletion
-    if (store.reload) {
-      store.reload = false;
-      this.$router.go(0);
-    }
   }
 
-  addProject(new_project: Project) {
+  mounted(): void {
+    this.fetchProjects();
+    this.projects = store.projects;
+  }
+
+  addProject(new_project: Project): void {
     store.projects.push(new_project);
   }
 }

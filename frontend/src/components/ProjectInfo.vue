@@ -178,6 +178,8 @@ import firebase from "firebase/app";
 import { ProjectsAPI } from "../services/ProjectsAPI";
 import { ImageClass } from "../model/ImageClass";
 import { ProjectMember } from "../model/ProjectMember";
+import Utils from "../Utils";
+
 // import state from "../model/CStore";
 
 // The @Component decorator indicates the class is a Vue component
@@ -302,47 +304,35 @@ export default class ProjectInfo extends Vue {
     this.progressInfos = [];
   }
 
-  public upload(idx: number, file: File): void {
+  public async upload(idx: number, file: File): Promise<void> {
     console.log(file);
     this.progressInfos[idx] = { percentage: 0, fileName: file.name };
-    console.log("UPLOADING" + this.selectedFiles);
 
-    for (let i = 0; this.selectedFiles.length; i++) {
-      const reader = new FileReader();
+    const idProject = this.project.idProject;
+    const idUser = store.currentUserId;
+    const img = await Utils.readAsDataUrl(file);
+    console.log(img);
 
-      const idProject = this.project.idProject;
-      const idUser = store.currentUserId;
-
-      console.log(this.selectedFiles[i]);
-
-      reader.addEventListener("load", (e) => {
-        console.log(e.target);
-        const img = e.target?.result;
-        ProjectsAPI.uploadImage(img, idProject, idUser, (event) => {
-          this.progressInfos[idx].percentage = Math.round(
-            (100 * event.loaded) / event.total
-          );
-        })
-          .then((res) => {
-            if (res.status == 200) {
-              alert("WE ARE FUCKING PROSS");
-            } else {
-              alert("WE FAILED, FUCKING NOOBS");
-            }
-            this.selectedFiles = [];
-          })
-          .catch((err) => {
-            this.progressInfos[idx].percentage = 0;
-            this.message = "Could not upload the image:" + file.name;
-            alert("WE ARE FUCKING NOOBS" + err);
-          });
+    console.log(file);
+    ProjectsAPI.uploadImage(img, idProject, idUser, (event: ProgressEvent) => {
+      this.progressInfos[idx].percentage = Math.round(
+        (100 * event.loaded) / event.total
+      );
+    })
+      .then((res) => {
+        console.log(res);
+        if (res.status == 200) {
+          alert("WE ARE FUCKING PROSS");
+        } else {
+          alert("WE FAILED, FUCKING NOOBS: " + res.status);
+        }
+        this.selectedFiles = [];
+      })
+      .catch((err) => {
+        this.progressInfos[idx].percentage = 0;
+        this.message = "Could not upload the image:" + file.name;
+        alert("WE ARE FUCKING NOOBS" + err);
       });
-      reader.readAsArrayBuffer(this.selectedFiles[i]);
-    }
-  }
-
-  private async processImage(file: File): Promise<Uint8Array> {
-    return new Uint8Array(await file.arrayBuffer());
   }
 
   public uploadFiles(): void {
