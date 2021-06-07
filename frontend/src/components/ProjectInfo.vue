@@ -56,13 +56,6 @@
           >Upload Images</a
         >
       </div>
-      <div v-if="message">
-        <ul>
-          <li v-for="(ms, i) in message.split('\n')" :key="i">
-            {{ ms }}
-          </li>
-        </ul>
-      </div>
 
       <!-- Classify images btt -->
       <div
@@ -151,6 +144,13 @@
       </button>
       <i class="fas fa-trash-alt pl-4"></i>
     </div>
+    <div v-if="message">
+      <ul>
+        <li v-for="(ms, i) in message.split('\n')" :key="i">
+          {{ ms }}
+        </li>
+      </ul>
+    </div>
     <div class="card">
       <div class="card-header">List of Files</div>
       <ul class="list-group list-group-flush">
@@ -181,6 +181,12 @@ import { ProjectMember } from "../model/ProjectMember";
 // import state from "../model/CStore";
 
 // The @Component decorator indicates the class is a Vue component
+
+interface ProgressInfo {
+  percentage: number;
+  fileName: string;
+}
+
 @Component({
   components: {},
 })
@@ -202,13 +208,14 @@ export default class ProjectInfo extends Vue {
 
   public classes: Array<ImageClass> = [];
 
-  public progressInfos = [];
+  public progressInfos: Array<ProgressInfo> = [];
 
-  public selectedFiles: any = [];
+  public selectedFiles: Array<File> = [];
 
   public fileInfos = [];
 
   public message = "";
+
   async addClass(): Promise<void> {
     const user = await firebase.auth().currentUser;
 
@@ -275,7 +282,6 @@ export default class ProjectInfo extends Vue {
       ProjectsAPI.deleteProject(store.currentProject.idProject)
         .then((res) => {
           if (res.status == 200) {
-            store.reload = true;
             alert("Project deleted successfully");
             this.$router.push("/Projects");
           } else {
@@ -296,26 +302,47 @@ export default class ProjectInfo extends Vue {
     this.progressInfos = [];
   }
 
-  public upload(idx: number, file: any): void {
+  public upload(idx: number, file: File): void {
+    console.log(file);
+    this.progressInfos[idx] = { percentage: 0, fileName: file.name };
     console.log("UPLOADING" + this.selectedFiles);
+
     for (let i = 0; this.selectedFiles.length; i++) {
-      const img = this.selectedFiles[i];
-      const name = this.selectedFiles[i].name;
-      const idProject = store.currentProject.idProject;
+      const reader = new FileReader();
+
+      const idProject = this.project.idProject;
       const idUser = store.currentUserId;
-      ProjectsAPI.uploadImage(img, name, idProject, idUser)
-        .then((res) => {
-          if (res.status < 400) {
-            alert("WE ARE FUCKING PROSS");
-          } else {
-            alert("WE FAILED, FUCKING NOOBS");
-          }
-          this.selectedFiles = [];
+
+      console.log(this.selectedFiles[i]);
+
+      reader.addEventListener("load", (e) => {
+        console.log(e.target);
+        const img = e.target?.result;
+        ProjectsAPI.uploadImage(img, idProject, idUser, (event) => {
+          this.progressInfos[idx].percentage = Math.round(
+            (100 * event.loaded) / event.total
+          );
         })
-        .catch((err) => {
-          alert("WE ARE FUCKING NOOBS" + err);
-        });
+          .then((res) => {
+            if (res.status == 200) {
+              alert("WE ARE FUCKING PROSS");
+            } else {
+              alert("WE FAILED, FUCKING NOOBS");
+            }
+            this.selectedFiles = [];
+          })
+          .catch((err) => {
+            this.progressInfos[idx].percentage = 0;
+            this.message = "Could not upload the image:" + file.name;
+            alert("WE ARE FUCKING NOOBS" + err);
+          });
+      });
+      reader.readAsArrayBuffer(this.selectedFiles[i]);
     }
+  }
+
+  private async processImage(file: File): Promise<Uint8Array> {
+    return new Uint8Array(await file.arrayBuffer());
   }
 
   public uploadFiles(): void {
@@ -323,6 +350,21 @@ export default class ProjectInfo extends Vue {
     for (let i = 0; i < this.selectedFiles.length; i++) {
       this.upload(i, this.selectedFiles[i]);
     }
+  }
+
+  public async fetchImages(): Promise<void> {
+    await ProjectsAPI.getImages(store.currentProject.idProject)
+      .then((res) => {
+        console.log("IMAGES: " + res.data);
+        this.fileInfos = res.data;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  mounted(): void {
+    this.fetchImages();
   }
 
   created(): void {
