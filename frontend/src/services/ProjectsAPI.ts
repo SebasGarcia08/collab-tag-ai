@@ -106,6 +106,6 @@ export class ProjectsAPI {
   }
 
   public static getImages(idProject: number): Promise<AxiosResponse> {
-    return axios.get(`${ProjectsAPI.HOST}/api/data/${idProject}`);
+    return axios.get(`${ProjectsAPI.HOST}/api/data/list/all/${idProject}`);
   }
 }
