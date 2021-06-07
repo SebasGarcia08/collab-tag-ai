@@ -1,5 +1,23 @@
 <template>
   <div class="container">
+    <div class="flex flex-row">
+      <div
+        class="mt-5"
+        v-for="(progressInfo, index) in progressInfos"
+        :key="index"
+      >
+        <span> {{ progressInfo.fileName }}}</span>
+        <div class="relative pt-1">
+          <div
+            :aria-valuenow="progressInfo.percentage"
+            :style="{ width: progressInfo.percentage + '%' }"
+            class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-pink-500"
+          >
+            {{ progressInfo.percentage }}%
+          </div>
+        </div>
+      </div>
+    </div>
     <!-- Project -->
     <div class="flex flex-row">
       <div class="pl-10 flex flex-col">
@@ -26,7 +44,7 @@
             accept="image/*"
             multiple
             class="hidden"
-            @change="onFilesSelected"
+            @change="selectFile"
           />
           <i class="fas fa-upload pl-2"></i>
         </label>
@@ -34,8 +52,18 @@
       <div
         class="flex items-center justify-center mx-auto border rounded bg-blue-500 hover:bg-blue-600 shadow-sm w-40 p-2 text-white"
       >
-        <a @click="onUploadImage" class="font-semibold">Upload Images</a>
+        <a @click="uploadFiles" :disabled="!selectedFiles" class="font-semibold"
+          >Upload Images</a
+        >
       </div>
+      <div v-if="message">
+        <ul>
+          <li v-for="(ms, i) in message.split('\n')" :key="i">
+            {{ ms }}
+          </li>
+        </ul>
+      </div>
+
       <!-- Classify images btt -->
       <div
         class="flex items-center justify-center mx-auto border rounded bg-blue-500 hover:bg-blue-600 shadow-sm w-40 p-2 text-white"
@@ -123,6 +151,21 @@
       </button>
       <i class="fas fa-trash-alt pl-4"></i>
     </div>
+    <div class="card">
+      <div class="card-header">List of Files</div>
+      <ul class="list-group list-group-flush">
+        <li
+          class="list-group-item"
+          v-for="(file, index) in fileInfos"
+          :key="index"
+        >
+          <p>
+            <a :href="file.url">{{ file.name }}</a>
+          </p>
+          <img :src="file.url" :alt="file.name" height="80px" />
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
@@ -149,18 +192,23 @@ export default class ProjectInfo extends Vue {
     default:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
   })
-  description!: string;
+  public description!: string;
 
-  project = store.currentProject;
+  public project = store.currentProject;
 
-  newClass = "";
+  public newClass = "";
 
-  files2Upload: any = [];
+  public members: Array<ProjectMember> = [];
 
-  members: Array<ProjectMember> = [];
+  public classes: Array<ImageClass> = [];
 
-  classes: Array<ImageClass> = [];
+  public progressInfos = [];
 
+  public selectedFiles: any = [];
+
+  public fileInfos = [];
+
+  public message = "";
   async addClass(): Promise<void> {
     const user = await firebase.auth().currentUser;
 
@@ -224,30 +272,35 @@ export default class ProjectInfo extends Vue {
   public deleteProject(): void {
     const sure = confirm("Are you sure?");
     if (sure) {
-      ProjectsAPI.deleteProject(store.currentProject.idProject);
-      store.reload = false;
-      // console.log(state.projects);
-      // const idx = state.projects.indexOf(state.currentProject);
-      //state.projects.splice(idx, 1);
-      // console.log("Going to DELETE INDEX" + idx);
-      // console.log(state.projects);
-      alert("Project deleted successfully");
-      this.$router.push("/Projects");
-    } else {
-      alert("Operation cancelled");
+      ProjectsAPI.deleteProject(store.currentProject.idProject)
+        .then((res) => {
+          if (res.status == 200) {
+            store.reload = true;
+            alert("Project deleted successfully");
+            this.$router.push("/Projects");
+          } else {
+            alert("Server error. Status: " + res.status);
+          }
+        })
+        .catch((err) => {
+          alert(err);
+          console.log(err);
+          this.$router.push("/Projects");
+        });
     }
   }
 
-  async onFilesSelected(event): Promise<void> {
+  async selectFile(event): Promise<void> {
     console.log(event);
-    this.files2Upload = event.target.files;
+    this.selectedFiles = event.target.files;
+    this.progressInfos = [];
   }
 
-  public onUploadImage(): void {
-    console.log("UPLOADING" + this.files2Upload);
-    for (let i = 0; this.files2Upload.length; i++) {
-      const img = this.files2Upload[i];
-      const name = this.files2Upload[i].name;
+  public upload(idx: number, file: any): void {
+    console.log("UPLOADING" + this.selectedFiles);
+    for (let i = 0; this.selectedFiles.length; i++) {
+      const img = this.selectedFiles[i];
+      const name = this.selectedFiles[i].name;
       const idProject = store.currentProject.idProject;
       const idUser = store.currentUserId;
       ProjectsAPI.uploadImage(img, name, idProject, idUser)
@@ -257,11 +310,18 @@ export default class ProjectInfo extends Vue {
           } else {
             alert("WE FAILED, FUCKING NOOBS");
           }
-          this.files2Upload = [];
+          this.selectedFiles = [];
         })
         .catch((err) => {
           alert("WE ARE FUCKING NOOBS" + err);
         });
+    }
+  }
+
+  public uploadFiles(): void {
+    this.message = "";
+    for (let i = 0; i < this.selectedFiles.length; i++) {
+      this.upload(i, this.selectedFiles[i]);
     }
   }
 
