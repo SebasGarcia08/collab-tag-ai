@@ -1,14 +1,16 @@
 <template>
-  <div
-    class="mx-auto w-1/4"
-  >
-    <form @submit.prevent="login" class="mt-4 p-8 border rounded-xl border-gray-300 shadow-md">
+  <div class="mx-auto w-1/4">
+    <form
+      @submit.prevent="login"
+      class="mt-4 p-8 border rounded-xl border-gray-300 shadow-md"
+    >
       <!-- Username field -->
       <div>
         <label class="text-m font-bold text-gray-600 block"> Username: </label>
         <input
           type="text"
-          name="username" v-model="email"
+          name="username"
+          v-model="email"
           class="block w-full p-2 rounded border-2 border-solid border-gray-500"
         />
       </div>
@@ -17,7 +19,8 @@
         <label class="text-m font-bold text-gray-600 block"> Password: </label>
         <input
           type="password"
-          name="password" v-model="password"
+          name="password"
+          v-model="password"
           class="block w-full p-2 rounded border-2 border-solid border-gray-500"
         />
       </div>
@@ -64,17 +67,17 @@ export default class LoginBox extends Vue {
       .signInWithEmailAndPassword(this.email, this.password)
       .then((userCredential) => {
         // Signed in
-        if ( userCredential.user != null) {
+        if (userCredential.user != null) {
           store.currentUserId = userCredential.user.uid;
           console.log(store.currentUserId);
           // this.$root.$data.store.currentUserId = userCredential.user.uid;
           // console.log(this.$root.$data);
         }
 
-        this.$router.replace('Projects');
+        this.$router.replace("Projects");
         // ...
         (error) => console.error(error);
-      })
+      });
   }
 }
 </script>

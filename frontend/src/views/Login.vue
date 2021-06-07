@@ -2,7 +2,9 @@
   <div class="container relative">
     <!-- <SideBar :buttons="buttonsarr" class="fixed" /> -->
     <main class="min-h-screen flex flex-col justify-center">
-      <label class="text-center font-bold mt-2 mb-8 text-7xl"> Welcome to CollabTag.ai </label>
+      <label class="text-center font-bold mt-2 mb-8 text-7xl">
+        Welcome to CollabTag.ai
+      </label>
       <LoginBox />
     </main>
   </div>

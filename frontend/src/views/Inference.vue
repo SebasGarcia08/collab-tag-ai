@@ -1,6 +1,6 @@
 <template>
   <div class="container relative bg-white dark:bg-gray-800">
-    <SideBar :buttons="buttonsarr" class="absolute" />
+    <SideBar :buttons="buttonsarr" class="fixed" />
     <main class="ml-20"></main>
     <WebcamPanel />
   </div>

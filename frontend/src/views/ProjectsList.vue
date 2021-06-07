@@ -43,11 +43,12 @@ import ProjectPreview from "../components/ProjectPreview.vue";
 import Component from "vue-class-component";
 import { Item } from "../model/Item";
 import { Project } from "../model/Project";
-import { ProjectsLoader } from "../repositories/ProjectsLoader";
+import { ProjectsAPI } from "../repositories/ProjectsAPI";
 import AddProject from "../components/AddProject.vue";
 import Button from "../components/Button.vue";
 import firebase from "firebase/app";
-
+import store from "../model/Store";
+// import state from "../model/CStore";
 // The @Component decorator indicates the class is a Vue component
 @Component({
   components: {
@@ -78,32 +79,27 @@ export default class Projects extends Vue {
     },
   ];
 
+  public projects = store.projects;
+
   showAddProject = false;
 
   toggleAddProject() {
-    console.log(this.$root.$data);
+    // console.log(this.$root.$data);
     this.showAddProject = !this.showAddProject;
-  }
-
-  projects: Array<Project> = [];
-
-  projectsLoader: ProjectsLoader = new ProjectsLoader();
-
-  addProject(new_project) {
-
-    this.projects.push(new_project);
-
   }
 
   async fetchProjects() {
     const user = await firebase.auth().currentUser;
-    console.log(user);
+    // console.log(user);
+    // console.log("FETCHED DATAAAAA FOK");
 
     if (user != null) {
-      await this.projectsLoader
-        .loadProjects(user.uid)
+      await ProjectsAPI.loadProjects(user.uid)
         .then((response) => {
-          console.log(response);
+          //console.log(response);
+          store.projects = response.data;
+          // state.projects = response.data;
+          //this.$store.state.projects = response.data;
           this.projects = response.data;
         })
         .catch((Error) => {
@@ -115,6 +111,17 @@ export default class Projects extends Vue {
 
   created() {
     this.fetchProjects();
+    this.projects = store.projects;
+
+    // Reload page after project deletion
+    if (store.reload) {
+      store.reload = false;
+      this.$router.go(0);
+    }
+  }
+
+  addProject(new_project: Project) {
+    store.projects.push(new_project);
   }
 }
 </script>

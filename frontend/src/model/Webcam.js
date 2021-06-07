@@ -13,7 +13,7 @@ export class Webcam {
     this.webcamElement = null;
   }
 
-  setWebcamElement(webcamElement){
+  setWebcamElement(webcamElement) {
     this.webcamElement = webcamElement;
   }
 
