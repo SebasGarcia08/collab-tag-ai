@@ -61,6 +61,25 @@ namespace backend.Controllers
             
             return dataItems; // TODO
         }
+        
+        
+        [HttpPut("api/data/{dataId}/{classId}")]
+        public ActionResult<Datum> postData(long dataId, long classId)
+        {
+            try
+            {
+                Datum data = _context.Data.Single(d => d.IdData.Equals(dataId));
+                data.IdClass = classId;
+                _context.SaveChanges();
+
+                return new CreatedResult("api/data/" + data.IdData, data);
+            }
+            catch
+            {
+                return new BadRequestResult();
+            }
+        }
+        
 
         [HttpPost("api/data")]
         public ActionResult<Datum> postData(Photo photo)
