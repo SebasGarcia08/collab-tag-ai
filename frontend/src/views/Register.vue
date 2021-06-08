@@ -27,17 +27,17 @@ export default class Login extends Vue {
   buttonsarr: Array<Item> = [
     {
       text: "Projects",
-      route: "/Projects",
+      route: "/projects",
       icon: "fas fa-stream fa-2x",
     },
     {
       text: "Settings",
-      route: "/Setting",
+      route: "/setting",
       icon: "fas fa-cogs fa-2x",
     },
     {
       text: "Inference",
-      route: "/Inference",
+      route: "/inference",
       icon: "fas fa-chart-bar fa-2x",
     },
   ];

@@ -33,7 +33,7 @@
       </div>
       <div class="mt-5 flex justify-center">
         <p class="pr-1">Don't have an account?</p>
-        <router-link to="/Register" class="font-medium text-blue-500"
+        <router-link to="/register" class="font-medium text-blue-500"
           >create one</router-link
         >
       </div>
@@ -74,7 +74,7 @@ export default class LoginBox extends Vue {
           // console.log(this.$root.$data);
         }
 
-        this.$router.replace("Projects");
+        this.$router.replace("projects");
         // ...
         (error) => console.error(error);
       });

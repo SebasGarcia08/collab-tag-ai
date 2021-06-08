@@ -16,6 +16,7 @@ module.exports = {
       transitionDuration: ["hover", "group-hover", "focus"],
       visibility: ["hover", "group-hover", "focus"],
       transitionTimingFunction: ["hover", "group-hover", "focus"],
+      cursor: ["hover", "focus"],
     },
   },
   plugins: [require("tailwindcss-named-groups")],

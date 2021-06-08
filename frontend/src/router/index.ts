@@ -6,6 +6,7 @@ import Inference from "../views/Inference.vue";
 import Test from "../views/Test.vue";
 import Register from "../views/Register.vue";
 import ProjectFull from "../views/ProjectFull.vue";
+import ImgUpload from "../views/ImgUpload.vue";
 import firebase from "firebase/app";
 
 Vue.use(VueRouter);
@@ -21,7 +22,7 @@ const routes: Array<RouteConfig> = [
     component: Login,
   },
   {
-    path: "/Projects",
+    path: "/projects",
     name: "Projects",
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
@@ -32,7 +33,7 @@ const routes: Array<RouteConfig> = [
     },
   },
   {
-    path: "/Inference",
+    path: "/inference",
     name: "Inference",
     component: Inference,
     meta: {
@@ -40,14 +41,23 @@ const routes: Array<RouteConfig> = [
     },
   },
   {
-    path: "/Register",
+    path: "/register",
     name: "Register",
     component: Register,
   },
   {
-    path: "/ProjectFull",
+    path: "/projectFull",
     name: "ProjectFull",
     component: ProjectFull,
+    props: true,
+    meta: {
+      authenticated: true,
+    },
+  },
+  {
+    path: "/imgUpload",
+    name: "ImgUpload",
+    component: ImgUpload,
     props: true,
     meta: {
       authenticated: true,

@@ -52,7 +52,7 @@ export default class ProjectPreview extends Vue {
 
     console.log(store.currentProject);
 
-    this.$router.push("/ProjectFull");
+    this.$router.push("/projectFull");
   }
 }
 </script>

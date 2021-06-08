@@ -1,23 +1,5 @@
 <template>
   <div class="container">
-    <div class="flex flex-row">
-      <div
-        class="mt-5"
-        v-for="(progressInfo, index) in progressInfos"
-        :key="index"
-      >
-        <span> {{ progressInfo.fileName }}}</span>
-        <div class="relative pt-1">
-          <div
-            :aria-valuenow="progressInfo.percentage"
-            :style="{ width: progressInfo.percentage + '%' }"
-            class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-pink-500"
-          >
-            {{ progressInfo.percentage }}%
-          </div>
-        </div>
-      </div>
-    </div>
     <!-- Project -->
     <div class="flex flex-row">
       <div class="pl-10 flex flex-col">
@@ -34,29 +16,11 @@
     <div class="w-full flex flex-row">
       <!-- Upload images btt -->
       <div
-        class="flex items-center justify-center mx-auto border rounded bg-blue-500 hover:bg-blue-600 shadow-sm font-semibold w-40 p-2"
-      >
-        <label for="upload-image" class="text-white">
-          Select Images
-          <input
-            id="upload-image"
-            type="file"
-            accept="image/*"
-            multiple
-            class="hidden"
-            @change="selectFile"
-          />
-          <i class="fas fa-upload pl-2"></i>
-        </label>
-      </div>
-      <div
         class="flex items-center justify-center mx-auto border rounded bg-blue-500 hover:bg-blue-600 shadow-sm w-40 p-2 text-white"
       >
-        <a @click="uploadFiles" :disabled="!selectedFiles" class="font-semibold"
-          >Upload Images</a
-        >
+        <a @click="openImgUpload" class="font-semibold">Upload Images</a>
+        <i class="fas fa-cloud-upload-alt pl-2"></i>
       </div>
-
       <!-- Classify images btt -->
       <div
         class="flex items-center justify-center mx-auto border rounded bg-blue-500 hover:bg-blue-600 shadow-sm w-40 p-2 text-white"
@@ -144,28 +108,6 @@
       </button>
       <i class="fas fa-trash-alt pl-4"></i>
     </div>
-    <div v-if="message">
-      <ul>
-        <li v-for="(ms, i) in message.split('\n')" :key="i">
-          {{ ms }}
-        </li>
-      </ul>
-    </div>
-    <div class="card">
-      <div class="card-header">List of Files</div>
-      <ul class="list-group list-group-flush">
-        <li
-          class="list-group-item"
-          v-for="(file, index) in fileInfos"
-          :key="index"
-        >
-          <p>
-            {{ file.image }}
-          </p>
-          <img :src="file.image" :alt="file.name" height="80px" />
-        </li>
-      </ul>
-    </div>
   </div>
 </template>
 
@@ -179,10 +121,6 @@ import { ProjectsAPI } from "../services/ProjectsAPI";
 import { ImageClass } from "../model/ImageClass";
 import { ProjectMember } from "../model/ProjectMember";
 import Utils from "../Utils";
-
-// import state from "../model/CStore";
-
-// The @Component decorator indicates the class is a Vue component
 
 interface ProgressInfo {
   percentage: number;
@@ -209,14 +147,6 @@ export default class ProjectInfo extends Vue {
   public members: Array<ProjectMember> = [];
 
   public classes: Array<ImageClass> = [];
-
-  public progressInfos: Array<ProgressInfo> = [];
-
-  public selectedFiles: Array<File> = [];
-
-  public fileInfos: any = [];
-
-  public message = "";
 
   async addClass(): Promise<void> {
     const user = await firebase.auth().currentUser;
@@ -245,7 +175,11 @@ export default class ProjectInfo extends Vue {
   }
 
   openInference(): void {
-    this.$router.push("/Inference");
+    this.$router.push("/inference");
+  }
+
+  openImgUpload(): void {
+    this.$router.push("/imgUpload");
   }
 
   async fetchMembers(): Promise<void> {
@@ -285,7 +219,7 @@ export default class ProjectInfo extends Vue {
         .then((res) => {
           if (res.status == 200) {
             alert("Project deleted successfully");
-            this.$router.push("/Projects");
+            this.$router.push("/projects");
           } else {
             alert("Server error. Status: " + res.status);
           }
@@ -293,81 +227,13 @@ export default class ProjectInfo extends Vue {
         .catch((err) => {
           alert(err);
           console.log(err);
-          this.$router.push("/Projects");
+          this.$router.push("/projects");
         });
     }
   }
 
-  async selectFile(event): Promise<void> {
-    console.log(event);
-    this.selectedFiles = event.target.files;
-    this.progressInfos = [];
-  }
-
-  public async upload(idx: number, file: File): Promise<void> {
-    console.log(file);
-    this.progressInfos[idx] = { percentage: 0, fileName: file.name };
-
-    const idUser = store.currentUserId;
-    console.log("Curr userId: " + store.currentUserId);
-    const idProject = this.project.idProject;
-    const img: Blob = await Utils.convert2Base64Array(file);
-    const date = new Date().toLocaleString();
-    console.log("Img when upload: " + img);
-
-    console.log(file);
-    ProjectsAPI.uploadImage(
-      img,
-      idProject,
-      idUser,
-      date,
-      (event: ProgressEvent) => {
-        this.progressInfos[idx].percentage = Math.round(
-          (100 * event.loaded) / event.total
-        );
-      }
-    )
-      .then((res) => {
-        console.log(res);
-        alert("WE ARE FUCKING PROSS");
-        this.selectedFiles = [];
-      })
-      .catch((err) => {
-        this.progressInfos[idx].percentage = 0;
-        this.message = "Could not upload the image:" + file.name;
-        alert("WE ARE FUCKING NOOBS" + err);
-      });
-  }
-
-  public uploadFiles(): void {
-    this.message = "";
-    for (let i = 0; i < this.selectedFiles.length; i++) {
-      this.upload(i, this.selectedFiles[i]);
-    }
-  }
-
-  public async fetchImages(): Promise<void> {
-    await ProjectsAPI.getAllImages(store.currentProject.idProject)
-      .then((res) => {
-        console.log("IMAGES: ");
-        this.fileInfos = res.data;
-        for (var i = 0; i < this.fileInfos.length; i++) {
-          this.fileInfos[i].image = window.atob(this.fileInfos[i].image);
-        }
-        console.log("FILES INFOS");
-        console.log(this.fileInfos);
-        // for (let i = 0; i < res.data.length; i++) {
-        //   console.log(Utils.base64ToUint8Array(res.data[i].image));
-        // }
-        console.log(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-
   mounted(): void {
-    this.fetchImages();
+    //this.fetchImages();
     ProjectsAPI.checkUserId();
     console.log("FUCKING  MOUNTEEEEEEEEEEEEEEEEEED");
   }

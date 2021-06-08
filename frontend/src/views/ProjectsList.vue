@@ -64,17 +64,17 @@ export default class Projects extends Vue {
   buttonsarr: Array<Item> = [
     {
       text: "Projects",
-      route: "/Projects",
+      route: "/projects",
       icon: "fas fa-stream fa-2x",
     },
     {
       text: "Settings",
-      route: "/Setting",
+      route: "/setting",
       icon: "fas fa-cogs fa-2x",
     },
     {
       text: "Inference",
-      route: "/Inference",
+      route: "/inference",
       icon: "fas fa-chart-bar fa-2x",
     },
   ];
@@ -109,7 +109,7 @@ export default class Projects extends Vue {
     }
   }
 
-  creatd(): void {
+  created(): void {
     this.fetchProjects();
     this.projects = store.projects;
   }
