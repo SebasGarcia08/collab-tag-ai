@@ -47,7 +47,7 @@ namespace backend
                 options.AddDefaultPolicy(
                     builder =>
                     {
-                        builder.WithOrigins("http://localhost:8080", "http://localhost:8081")
+                        builder.WithOrigins("http://localhost:8080", "http://localhost:8081", "http://localhost:80", "http://collabtag.club/", "http://collabtag.club:80")
                             .AllowAnyHeader()
                             .AllowAnyMethod();;
                     });
