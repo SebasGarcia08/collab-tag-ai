@@ -45,30 +45,21 @@
             </li>
           </ul>
         </div>
-        <!-- Imgs preview -->
-        <div class="card">
-          <div class="card-header font-bold">List of Files</div>
-          <ul class="list-group list-group-flush">
-            <li
-              class="list-group-item"
-              v-for="(file, index) in fileInfos"
-              :key="index"
-            >
-              <p>
-                {{ file.image }}
-              </p>
-              <img
-                :src="file.image"
-                :alt="file.name"
-                class="h-48 hover:cursor-pointer"
-              />
-            </li>
-          </ul>
+        <!-- Imgs gallery -->
+        <div class="card mx-5">
+          <div class="card-header font-bold text-xl">Preview</div>
+          <div
+            class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-5"
+          >
+            <div v-for="(file, index) in previewFiles" :key="index">
+              <ImgCard :image="file" @unselect-file="unselectFile" />
+            </div>
+          </div>
         </div>
         <!-- Imgs uploading percentage -->
-        <div class="flex flex-row">
+        <div class="flex flex-col">
           <div
-            class="mt-5"
+            class="w-full mt-5"
             v-for="(progressInfo, index) in progressInfos"
             :key="index"
           >
@@ -77,7 +68,7 @@
               <div
                 :aria-valuenow="progressInfo.percentage"
                 :style="{ width: progressInfo.percentage + '%' }"
-                class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-pink-500"
+                class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-green-500"
               >
                 {{ progressInfo.percentage }}%
               </div>
@@ -94,6 +85,7 @@ import Vue from "vue";
 import SideBar from "../components/SideBar.vue";
 import Component from "vue-class-component";
 import { Item } from "../model/Item";
+import ImgCard from "../components/ImgCard.vue";
 import { Project } from "../model/Project";
 import { ProjectsAPI } from "../services/ProjectsAPI";
 import Button from "../components/Button.vue";
@@ -106,10 +98,17 @@ interface ProgressInfo {
   fileName: string;
 }
 
+interface PreviewImg {
+  name: string;
+  image: Blob;
+  preview: boolean;
+}
+
 @Component({
   components: {
     SideBar,
     Button,
+    ImgCard,
   },
 })
 export default class ImgUpload extends Vue {
@@ -139,18 +138,33 @@ export default class ImgUpload extends Vue {
 
   public selectedFiles: Array<File> = [];
 
-  public fileInfos: any = [];
+  public previewFiles: Array<PreviewImg> = [];
 
   public message = "";
 
   async selectFile(event): Promise<void> {
     console.log(event);
-    this.selectedFiles = event.target.files;
+    this.selectedFiles = Array.from(event.target.files);
+    console.log(this.selectedFiles);
     this.progressInfos = [];
+    for (var i = 0; i < this.selectedFiles.length; i++) {
+      const route: Blob = await Utils.convert2Base64Array(
+        this.selectedFiles[i]
+      );
+      const img = {
+        name: this.selectedFiles[i].name,
+        image: route,
+        preview: true,
+      };
+      this.previewFiles.push(img);
+    }
+    console.log("PREVIEW FILES: ");
+    console.log(this.previewFiles);
   }
 
   public async upload(idx: number, file: File): Promise<void> {
     console.log(file);
+    this.previewFiles.splice(0, 1);
     this.progressInfos[idx] = { percentage: 0, fileName: file.name };
 
     const idUser = store.currentUserId;
@@ -173,8 +187,6 @@ export default class ImgUpload extends Vue {
       }
     )
       .then((res) => {
-        console.log(res);
-        alert("WE ARE FUCKING PROSS");
         this.selectedFiles = [];
       })
       .catch((err) => {
@@ -191,28 +203,14 @@ export default class ImgUpload extends Vue {
     }
   }
 
-  public async fetchImages(): Promise<void> {
-    await ProjectsAPI.getAllImages(store.currentProject.idProject)
-      .then((res) => {
-        console.log("IMAGES: ");
-        this.fileInfos = res.data;
-        for (var i = 0; i < this.fileInfos.length; i++) {
-          this.fileInfos[i].image = window.atob(this.fileInfos[i].image);
-        }
-        console.log("FILES INFOS");
-        console.log(this.fileInfos);
-        // for (let i = 0; i < res.data.length; i++) {
-        //   console.log(Utils.base64ToUint8Array(res.data[i].image));
-        // }
-        console.log(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  public unselectFile(image: PreviewImg): void {
+    const idx = this.previewFiles.indexOf(image);
+    this.previewFiles.splice(idx, 1);
+    this.selectedFiles.splice(idx, 1);
   }
 
   mounted(): void {
-    this.fetchImages();
+    //this.fetchImages();
     ProjectsAPI.checkUserId();
   }
 }

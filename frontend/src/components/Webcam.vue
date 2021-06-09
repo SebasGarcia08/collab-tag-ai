@@ -89,8 +89,6 @@ export default class WebcamPanel extends Vue {
   private model: LayersModel;
   private mobilenet: LayersModel;
 
-  public classNames: Array<string> = ["Rock", "Paper", "Scissors"];
-  public numSamples: Array<number>;
   public predictionText: string;
 
   public isPredicting: boolean;
@@ -105,7 +103,6 @@ export default class WebcamPanel extends Vue {
     this.model = new Sequential();
     this.webcam = new Webcam();
     this.mobilenet = new Sequential();
-    this.numSamples = [0, 0, 0];
   }
 
   mounted(): void {
@@ -145,7 +142,7 @@ export default class WebcamPanel extends Vue {
         }),
         //        tf.layers.flatten(),
         tf.layers.dense({ units: 100, activation: "relu" }),
-        tf.layers.dense({ units: 3, activation: "softmax" }),
+        tf.layers.dense({ units: this.classes.length, activation: "softmax" }),
       ],
     });
     const optimizer = tf.train.adam(0.01);
@@ -195,7 +192,7 @@ export default class WebcamPanel extends Vue {
         return predictions.as1D().argMax();
       });
       const classId = (await predictedClass.data())[0];
-      this.predictionText = "I see " + this.classNames[classId];
+      this.predictionText = "I see " + this.classes[classId].name;
       predictedClass.dispose();
       await tf.nextFrame();
     }

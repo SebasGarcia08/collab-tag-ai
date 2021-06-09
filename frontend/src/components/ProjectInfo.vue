@@ -108,6 +108,17 @@
       </button>
       <i class="fas fa-trash-alt pl-4"></i>
     </div>
+    <!-- Imgs gallery -->
+    <div class="card mx-5">
+      <div class="card-header font-bold text-xl">Images gallery</div>
+      <div
+        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-5"
+      >
+        <div v-for="(file, index) in fileInfos" :key="index">
+          <ImgCard :image="file" />
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -120,6 +131,7 @@ import firebase from "firebase/app";
 import { ProjectsAPI } from "../services/ProjectsAPI";
 import { ImageClass } from "../model/ImageClass";
 import { ProjectMember } from "../model/ProjectMember";
+import ImgCard from "../components/ImgCard.vue";
 import Utils from "../Utils";
 
 interface ProgressInfo {
@@ -128,7 +140,9 @@ interface ProgressInfo {
 }
 
 @Component({
-  components: {},
+  components: {
+    ImgCard,
+  },
 })
 export default class ProjectInfo extends Vue {
   // Initial data can be declared as instance properties
@@ -147,6 +161,8 @@ export default class ProjectInfo extends Vue {
   public members: Array<ProjectMember> = [];
 
   public classes: Array<ImageClass> = [];
+
+  public fileInfos: any = [];
 
   async addClass(): Promise<void> {
     const user = await firebase.auth().currentUser;
@@ -232,8 +248,28 @@ export default class ProjectInfo extends Vue {
     }
   }
 
+  public async fetchImages(): Promise<void> {
+    await ProjectsAPI.getAllImages(store.currentProject.idProject)
+      .then((res) => {
+        console.log("IMAGES: ");
+        this.fileInfos = res.data;
+        for (var i = 0; i < this.fileInfos.length; i++) {
+          this.fileInfos[i].image = window.atob(this.fileInfos[i].image);
+        }
+        console.log("FILES INFOS");
+        console.log(this.fileInfos);
+        // for (let i = 0; i < res.data.length; i++) {
+        //   console.log(Utils.base64ToUint8Array(res.data[i].image));
+        // }
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
   mounted(): void {
-    //this.fetchImages();
+    this.fetchImages();
     ProjectsAPI.checkUserId();
     console.log("FUCKING  MOUNTEEEEEEEEEEEEEEEEEED");
   }
