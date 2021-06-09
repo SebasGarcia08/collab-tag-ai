@@ -1,31 +1,32 @@
 <template>
-    <div class="div">
-        <h1>{{ greeting }}</h1>
-        <button @click="init()">INCREMENT ME</button>
-        <br>
-        <input @change="predict()" type="text">
-    </div>
+  <div class="div">
+    <h1>{{ greeting }}</h1>
+    <button @click="init()">INCREMENT ME</button>
+    <br />
+    <input @change="predict()" type="text" />
+  </div>
 </template>
 
 <script lang="ts">
-import {Vue, Component} from 'vue-property-decorator';
+import { Vue, Component } from "vue-property-decorator";
 @Component
 export default class Test extends Vue {
-    public greeting: string;
+  public greeting: string;
 
-    constructor(){
-        super();
-        this.greeting = "Unchanged"
-        this.init();
-    } 
-    
-    init(): void{
-        this.greeting = "This has been foking initialized";
-    }
+  constructor() {
+    super();
+    this.greeting = "Unchanged";
+    this.init();
+  }
 
-    predict(): void{
-        this.greeting = "I am here"
-        console.log("PREDIIIIIIIIIIIICT")
-    }
+  init(): void {
+    //this.$router.push('about')
+    this.greeting = "This has been foking initialized";
+  }
+
+  predict(): void {
+    this.greeting = "I am here";
+    console.log("PREDIIIIIIIIIIIICT");
+  }
 }
 </script>

@@ -6,6 +6,7 @@
 - NPM
 - dotnet core
 - C#
+- Postgres SQL
 
 ## Technologies 
 
@@ -45,6 +46,12 @@ cd /frontend && npm install
 From root project directory:
 ```
 cd /frontend && npm run serve
+```
+
+**Test user and passsword:**
+```
+username: test@hotmail.com
+password: 123456789
 ```
 
 #### Compiles and minifies for production
